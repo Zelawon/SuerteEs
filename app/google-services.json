@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "538518678165",
+    "project_id": "suertees-ce5d4",
+    "storage_bucket": "suertees-ce5d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538518678165:android:4cc19547b33fac2101499c",
+        "android_client_info": {
+          "package_name": "dte.masteriot.mdp.suertees"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfDkdm9OTIr-djvYhQSrRww5M67Psbuqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
