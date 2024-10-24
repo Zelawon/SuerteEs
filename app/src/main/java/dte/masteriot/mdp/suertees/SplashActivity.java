@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
-
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1000; // Splash screen time
@@ -21,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Set the app to always use night mode
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_splash);
 
         // Initialize FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();

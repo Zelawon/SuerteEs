@@ -117,7 +117,7 @@ public class ReportIncidentActivity extends AppCompatActivity implements View.On
                         if (location != null) {
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
-                            location_view.setText("Lat: " + latitude + ", Lon: " + longitude);
+                            location_view.setText("Lat: " + latitude + "\nLon: " + longitude);
                         } else {
                             Toast.makeText(ReportIncidentActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
                         }
