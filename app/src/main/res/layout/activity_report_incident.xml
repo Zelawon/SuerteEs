@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SplashActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SplashActivity">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/black">
+
+            <ImageView
+                android:id="@+id/image"
+                android:src="@drawable/suerte_sin_bg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SUERTE ES..."
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:columnCount="2"
+            android:rowCount="6">
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Title"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:ems="10" />
+
+            <TextView
+                android:id="@+id/textViewDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Description"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editTextDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:ems="10" />
+
+            <TextView
+                android:id="@+id/textDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Date"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewCurrentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Location"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewCurrentLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Type"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/textViewUrgency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="0"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="Urgency"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioLowUrgency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Low" />
+
+                <RadioButton
+                    android:id="@+id/radioMediumUrgency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium" />
+
+                <RadioButton
+                    android:id="@+id/radioHighUrgency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="High" />
+
+            </RadioGroup>
+
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="#00b4d8"/>
+
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="submit"
+                android:text="Submit"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="#00b4d8"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -4,20 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
-import dte.masteriot.mdp.suertees.accountmanagment.SignupActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1000; // Splash screen time
     private FirebaseAuth mAuth;
@@ -45,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
                     //TO-REMOVE Later and Change Logic Back
                     // If user is logged in, sign them out & Redirect to login page
                     mAuth.signOut();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, ReportIncidentActivity.class));
                 } else {
                     // No user is signed in, go to the login page
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, ReportIncidentActivity.class));
                 }
                 finish();
             }
