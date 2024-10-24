@@ -1,46 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:backgroundTint="@color/light_gray">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeActivity">
 
-        <Button
-            android:id="@+id/buttonReport"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/gray">
+
+            <ImageView
+                android:id="@+id/image"
+                android:src="@drawable/suerte_sin_bg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SUERTE ES..."
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="reportIssue"
-            android:text="Report an issue"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:backgroundTint="#00b4d8"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/buttonSeeMine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="seeMine"
-            android:text="My Reports"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:backgroundTint="#00b4d8"/>
+            <Button
+                android:id="@+id/buttonReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="reportIssue"
+                android:text="Report an Issue"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/blue"/>
 
-        <Button
-            android:id="@+id/buttonSeeAll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="seeAll"
-            android:text="All Reports"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:backgroundTint="#00b4d8"/>
+            <Button
+                android:id="@+id/buttonSeeMine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="seeMine"
+                android:text="My Reports"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/blue"/>
+
+            <Button
+                android:id="@+id/buttonSeeAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="seeAll"
+                android:text="All Reports"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/blue"/>
+
+            <Button
+                android:id="@+id/buttonOffices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="seeOffices"
+                android:text="See Offices"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/blue"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>
