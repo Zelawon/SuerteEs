@@ -16,6 +16,12 @@
         android:theme="@style/Theme.SuerteEs"
         tools:targetApi="31">
         <activity
+            android:name=".OfficesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoadURLContents"
+            android:exported="false" />
+        <activity
             android:name=".ItemActivity"
             android:exported="false" />
         <activity

@@ -51,12 +51,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void seeOffices(View v) {
-        /*
+
         // Creating Intent For Navigating to Second Activity (Explicit Intent)
-        Intent i = new Intent(HomeActivity.this, ReportIncidentActivity.class);
+        Intent i = new Intent(HomeActivity.this, OfficesActivity.class);
 
         // Once the intent is parametrized, start the second activity:
         startActivity(i);
-        */
+
     }
 }

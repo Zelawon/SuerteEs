@@ -54,8 +54,8 @@ public class ReportIncidentActivity extends AppCompatActivity implements View.On
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     Location location;
 
-    //Data to populate the Countries Spinner
-    String [] type_array={"pothole", "streetlight"};
+    //Data to populate the Incident Types
+    String [] type_array={"Pothole", "Sidewalk", "Crosswalk", "Streetlight", "Traffic light", "Street sign", "Ramp", "Trash bin", "Other"};
 
 
     @Override
