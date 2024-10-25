@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import dte.masteriot.mdp.suertees.HomeActivity;
 import dte.masteriot.mdp.suertees.R;
+import dte.masteriot.mdp.suertees.ReportIncidentActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Login successful, navigate to the main activity
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this, ReportIncidentActivity.class));
                                 // Show a message for successful login
                                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                                 finish();

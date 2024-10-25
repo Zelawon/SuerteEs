@@ -3,114 +3,105 @@ package dte.masteriot.mdp.suertees;
 import android.content.Intent;
 import android.Manifest;
 import android.content.pm.PackageManager;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RatingBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.location.CurrentLocationRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
 import java.util.Locale;
 
-public class ReportIncidentActivity extends AppCompatActivity implements View.OnClickListener {
+import dte.masteriot.mdp.suertees.objects.Incident;
 
-    // References to the views in the layout that are going to be read:
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class ReportIncidentActivity extends AppCompatActivity {
+
+    // Views
     TextView date_view, location_view;
     EditText title_view, desc_view;
-    Button bt_cancel;
-    Button bt_submit;
+    Button bt_cancel, bt_submit;
     Spinner type_view;
+    private RadioGroup urgencyGroup;
+    private String urgency;
 
-    // Variables to hold the data read from the views:
+    // Firestore instance
+    private FirebaseFirestore firestore;
+
+    // Data variables
     String title, desc, type, date;
     private FusedLocationProviderClient locationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     Location location;
-
-    //Data to populate the Countries Spinner
-    String [] type_array={"pothole", "streetlight"};
-
+    String[] type_array = {"pothole", "streetlight"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_incident);
 
-        //Referring the Views
-        title_view = (EditText) findViewById(R.id.editTextTitle);
-        desc_view = (EditText) findViewById(R.id.editTextDesc);
-        bt_cancel = (Button) findViewById(R.id.buttonCancel);
-        bt_submit = (Button) findViewById(R.id.buttonSubmit);
-        type_view = (Spinner) findViewById(R.id.spinnerType);
-        date_view = (TextView) findViewById(R.id.textViewCurrentDate);
-        location_view = (TextView) findViewById(R.id.textViewCurrentLocation);
+        // Initialize Views
+        title_view = findViewById(R.id.editTextTitle);
+        desc_view = findViewById(R.id.editTextDesc);
+        bt_cancel = findViewById(R.id.buttonCancel);
+        bt_submit = findViewById(R.id.buttonSubmit);
+        type_view = findViewById(R.id.spinnerType);
+        date_view = findViewById(R.id.textViewCurrentDate);
+        location_view = findViewById(R.id.textViewCurrentLocation);
+        urgencyGroup = findViewById(R.id.urgencyGroup);
 
-        // Adapter to adapt the data from array to Spinner
-        ArrayAdapter adapter= new ArrayAdapter(ReportIncidentActivity.this,
+        // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance();
+
+        // Adapter for Spinner
+        ArrayAdapter adapter = new ArrayAdapter(ReportIncidentActivity.this,
                 android.R.layout.simple_spinner_item, type_array);
         type_view.setAdapter(adapter);
 
-        //Date
+        // Set the current date
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         date = df.format(c);
         date_view.setText(date);
 
-        //Location
+        // Initialize location services
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        //if permission is not granted, request permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            // Permissions already granted, get the current location
             getCurrentLocation();
         }
-        location_view.setText("");
-
-        //Setting Listener for Submit Button
-        bt_submit.setOnClickListener(this);
     }
 
-
     private void getCurrentLocation() {
-        // Check if location permissions are granted
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // If not, request the location permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
             return;
         }
 
-        // Get the current location with high accuracy priority
-        locationProviderClient.getCurrentLocation(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY, null)
+        locationProviderClient.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
@@ -131,57 +122,55 @@ public class ReportIncidentActivity extends AppCompatActivity implements View.On
                 });
     }
 
-
-    /*private void getLastKnownLocation() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            Task<Location> locationTask = locationProviderClient.getLastLocation();
-            locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        Toast.makeText(ReportIncidentActivity.this, "Lat: " + latitude + ", Lon: " + longitude, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ReportIncidentActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }*/
-
-    @Override
-    public void onClick(View v) {
-
-        //Getting the Values from Views (EditText, Switch & Spinner)
-        title = title_view.getText().toString();
-        desc = desc_view.getText().toString();
+    public void submit(View v) {
+        // Get values from Views
+        title = title_view.getText().toString().trim();
+        desc = desc_view.getText().toString().trim();
         type = type_view.getSelectedItem().toString();
-        date = date_view.getText().toString();
-        location = null;
+        date = date_view.getText().toString().trim();
+        String locationText = location_view.getText().toString().trim();
 
-        // Creating Intent For Navigating to Second Activity (Explicit Intent)
-       /* Intent i = new Intent(ReportIncidentActivity.this,ListActivity.class);
+        int selectedId = urgencyGroup.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedId);
+            urgency = selectedRadioButton.getText().toString();
+        } else {
+            urgency = "";
+        }
 
-        // Adding values to the intent data to pass them to Second Activity
-        i.putExtra("name_key", title);
-        i.putExtra("reg_key", desc);
-        i.putExtra("country_key", type);
+        if (validateFields(title, date, locationText, type, urgency)) {
+            // Get the current user ID
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        i.putExtra("date_key", date);
-        i.putExtra("location_key", location);
+            // Create an Incident object with userID
+            Incident incident = new Incident(title, desc, type, date, locationText, urgency, userId);
 
-        // Once the intent is parametrized, start the second activity:
-        startActivity(i);*/
+            // Add data to Firestore
+            firestore.collection("incidents").document(userId).collection("userIdIncidents")
+                    .add(incident)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(ReportIncidentActivity.this, "Incident reported successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ReportIncidentActivity.this, "Failed to report incident: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validateFields(String title, String date, String location, String type, String urgency) {
+        return !title.isEmpty() && !date.isEmpty() && !location.isEmpty() && !type.isEmpty() && !urgency.isEmpty();
     }
 
     public void cancel(View view) {
-        //navigate back to home screen
         Intent i = new Intent(ReportIncidentActivity.this, HomeActivity.class);
-
         startActivity(i);
     }
-
 }

@@ -2,18 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/light_gray"
+    android:gravity="center">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-
         <!-- Logo Image View -->
         <ImageView
             android:id="@+id/imageViewLogo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/suerte_sin_bg"
             android:scaleType="fitCenter"/>
@@ -27,8 +27,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:textAlignment="center"
-            android:text="Suerte es Tener un Barrio Seguro"
-            android:textSize="30sp"
+            android:text="@string/slogan"
+            android:textSize="25dp"
             android:textStyle="bold"
             android:textColor="@color/blue"/>
     </RelativeLayout>

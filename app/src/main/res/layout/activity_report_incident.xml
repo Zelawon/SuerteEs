@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SplashActivity">
+    tools:context=".SplashActivity"
+    android:background="@color/light_gray">
 
-    <LinearLayout
+<LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,6 +69,7 @@
                 android:layout_row="0"
                 android:layout_column="1"
                 android:layout_gravity="center"
+
                 android:ems="10" />
 
             <TextView
@@ -167,6 +169,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
+                android:id="@+id/urgencyGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="5"
@@ -178,6 +181,7 @@
                     android:id="@+id/radioLowUrgency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="Low" />
 
                 <RadioButton
@@ -206,9 +210,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
+                android:onClick="cancel"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                android:backgroundTint="#00b4d8"/>
+                android:backgroundTint="#00b4d8"
+                android:layout_marginBottom="20dp"/>
 
             <Button
                 android:id="@+id/buttonSubmit"
