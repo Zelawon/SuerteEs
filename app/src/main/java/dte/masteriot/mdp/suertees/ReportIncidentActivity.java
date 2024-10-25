@@ -54,7 +54,9 @@ public class ReportIncidentActivity extends AppCompatActivity {
     private FusedLocationProviderClient locationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     Location location;
-    String[] type_array = {"pothole", "streetlight"};
+
+    //Data to populate the Incident Types
+    String [] type_array={"Pothole", "Sidewalk", "Crosswalk", "Streetlight", "Traffic light", "Street sign", "Ramp", "Trash bin", "Other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
                         if (location != null) {
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
-                            location_view.setText("Lat: " + latitude + ", Lon: " + longitude);
+                            location_view.setText("Lat: " + latitude + "\nLon: " + longitude);
                         } else {
                             Toast.makeText(ReportIncidentActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
                         }

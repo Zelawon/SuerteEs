@@ -15,8 +15,6 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
-
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1000; // Splash screen time
