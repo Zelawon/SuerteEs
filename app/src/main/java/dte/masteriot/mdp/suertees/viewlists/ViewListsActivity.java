@@ -36,8 +36,6 @@ public class ViewListsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_lists);
 
-        String key = getIntent().getStringExtra("type"); // 4444 mine and 1111 all
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -45,8 +43,22 @@ public class ViewListsActivity extends AppCompatActivity {
         recyclerView.setAdapter(incidentAdapter);
 
         firestore = FirebaseFirestore.getInstance();
+
+        // Fetch incidents when the activity is created
+        fetchIncidents();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Fetch incidents again when the activity resumes
+        fetchIncidents();
+    }
+
+    private void fetchIncidents() {
         FirebaseAuth auth = FirebaseAuth.getInstance(); // Get the FirebaseAuth instance
         FirebaseUser currentUser = auth.getCurrentUser(); // Get the current authenticated user
+        String key = getIntent().getStringExtra("type"); // 4444 mine and 1111 all
 
         if (key != null) {
             if (key.equals("1111")) {
