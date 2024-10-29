@@ -1,6 +1,7 @@
 package dte.masteriot.mdp.suertees.objects;
 
 public class Incident {
+    private String id; // Field to hold the document ID
     private String title;
     private String description; // Add description field
     private String type;
@@ -13,7 +14,8 @@ public class Incident {
     public Incident() {
     }
 
-    public Incident(String title, String description, String type, String date, String location, String urgency, String userID) {
+    public Incident(String id, String title, String description, String type, String date, String location, String urgency, String userID) {
+        this.id = id; // Initialize ID
         this.title = title;
         this.description = description; // Initialize description
         this.type = type;
@@ -24,6 +26,14 @@ public class Incident {
     }
 
     // Getters and setters
+    public String getId() { // Getter for ID
+        return id;
+    }
+
+    public void setId(String id) { // Setter for ID
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

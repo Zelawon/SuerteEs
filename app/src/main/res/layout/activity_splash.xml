@@ -15,8 +15,8 @@
             android:layout_width="190dp"
             android:layout_height="190dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/suerte_sin_bg"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/suerte_sin_bg" />
 
         <!-- App Name TextView -->
         <TextView
@@ -26,11 +26,11 @@
             android:layout_below="@id/imageViewLogo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:textAlignment="center"
             android:text="@string/slogan"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
             android:textSize="25dp"
-            android:textStyle="bold"
-            android:textColor="@color/blue"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>

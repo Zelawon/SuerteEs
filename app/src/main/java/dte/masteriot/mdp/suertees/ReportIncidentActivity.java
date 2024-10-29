@@ -1,11 +1,8 @@
 package dte.masteriot.mdp.suertees;
 
-import android.content.Intent;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.location.Location;
@@ -20,43 +17,42 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 import java.util.Locale;
 
 import dte.masteriot.mdp.suertees.objects.Incident;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 public class ReportIncidentActivity extends AppCompatActivity {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     // Views
     TextView date_view, location_view;
     EditText title_view, desc_view;
     Button bt_cancel, bt_submit;
     Spinner type_view;
-    private RadioGroup urgencyGroup;
-    private String urgency;
-
-    // Firestore instance
-    private FirebaseFirestore firestore;
-
     // Data variables
     String title, desc, type, date;
-    private FusedLocationProviderClient locationProviderClient;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     Location location;
-
     //Data to populate the Incident Types
-    String [] type_array={"Pothole", "Sidewalk", "Crosswalk", "Streetlight", "Traffic light", "Street sign", "Ramp", "Trash bin", "Other"};
+    String[] type_array = {"Pothole", "Sidewalk", "Crosswalk", "Streetlight", "Traffic light", "Street sign", "Ramp", "Trash bin", "Other"};
+    private RadioGroup urgencyGroup;
+    private String urgency;
+    // Firestore instance
+    private FirebaseFirestore firestore;
+    private FusedLocationProviderClient locationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +90,15 @@ public class ReportIncidentActivity extends AppCompatActivity {
         } else {
             getCurrentLocation();
         }
+
+        // Add a callback for the back button [control the behavior of the App]
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Finish the activity when back button is pressed
+                finish();  // Close the activity
+            }
+        });
     }
 
     private void getCurrentLocation() {
@@ -144,35 +149,54 @@ public class ReportIncidentActivity extends AppCompatActivity {
             // Get the current user ID
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            // Create an Incident object with userID
-            Incident incident = new Incident(title, desc, type, date, locationText, urgency, userId);
+            // Generate a unique ID for the incident
+            String incidentId = firestore.collection("incidents").document().getId();
+
+            // Create an Incident object with userID and generated ID
+            Incident incident = new Incident(incidentId, title, desc, type, date, locationText, urgency, userId);
+
+            // Show a progress dialog while adding the incident
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Reporting incident...");
+            progressDialog.setCancelable(false); // Prevent dismissal by back button
+            progressDialog.show();
 
             // Add data to Firestore
             firestore.collection("incidents").document(userId).collection("userIdIncidents")
-                    .add(incident)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(ReportIncidentActivity.this, "Incident reported successfully", Toast.LENGTH_SHORT).show();
-                        }
+                    .document(incidentId)
+                    .set(incident)
+                    .addOnSuccessListener(unused -> {
+                        // Add the incident to a collection for all incidents for faster queries later
+                        firestore.collection("incidents").document("allIncidents").collection("Incidents")
+                                .document(incidentId) // Use the same incident ID here
+                                .set(incident)
+                                .addOnSuccessListener(unused1 -> {
+                                    // Successfully added to all incidents collection
+                                    progressDialog.dismiss(); // Dismiss the progress dialog
+                                    Toast.makeText(ReportIncidentActivity.this, "Incident reported successfully", Toast.LENGTH_SHORT).show();
+                                    finish();  // Close the activity after adding the incident to both documents
+                                })
+                                .addOnFailureListener(e -> {
+                                    progressDialog.dismiss(); // Dismiss the progress dialog
+                                    Toast.makeText(ReportIncidentActivity.this, "Failed to add to all incidents: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ReportIncidentActivity.this, "Failed to report incident: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss(); // Dismiss the progress dialog
+                        Toast.makeText(ReportIncidentActivity.this, "Failed to report incident: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         } else {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
         }
     }
 
+
     private boolean validateFields(String title, String date, String location, String type, String urgency) {
         return !title.isEmpty() && !date.isEmpty() && !location.isEmpty() && !type.isEmpty() && !urgency.isEmpty();
     }
 
     public void cancel(View view) {
-        Intent i = new Intent(ReportIncidentActivity.this, HomeActivity.class);
-        startActivity(i);
+        finish();  // Close the activity
     }
+
 }

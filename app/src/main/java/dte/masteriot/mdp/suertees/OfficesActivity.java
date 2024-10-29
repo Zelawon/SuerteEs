@@ -1,11 +1,7 @@
 package dte.masteriot.mdp.suertees;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -14,18 +10,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class OfficesActivity extends AppCompatActivity {
     public static final String LOADWEBTAG = "LOAD_WEB_TAG"; // to easily filter logs
-    private String threadAndClass; // to clearly identify logs
     private static final String URL_OFFICES = "https://datos.madrid.es/egob/catalogo/200149-0-oficinas-linea-madrid.json";
     private static final String CONTENT_TYPE_JSON = "application/json";
+    ExecutorService es;
+    private String threadAndClass; // to clearly identify logs
     private Button btBack;
     private TextView text;
-    ExecutorService es;
+    // Define the handler that will receive the messages from the background thread:
+    Handler handler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            // message received from background thread: load complete (or failure)
+            String string_result;
+            super.handleMessage(msg);
+            Log.d(LOADWEBTAG, threadAndClass + ": message received from background thread");
+            if ((string_result = msg.getData().getString("text")) != null) {
+                text.setText(string_result);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +64,6 @@ public class OfficesActivity extends AppCompatActivity {
         LoadURLContents loadURLContents = new LoadURLContents(handler, CONTENT_TYPE_JSON, URL_OFFICES);
         es.execute(loadURLContents);
     }
-
-    // Define the handler that will receive the messages from the background thread:
-    Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            // message received from background thread: load complete (or failure)
-            String string_result;
-            super.handleMessage(msg);
-            Log.d(LOADWEBTAG, threadAndClass + ": message received from background thread");
-            if((string_result = msg.getData().getString("text")) != null) {
-                text.setText(string_result);
-            }
-        }
-    };
 
     // Listener for the button:
     public void goBack(View view) {

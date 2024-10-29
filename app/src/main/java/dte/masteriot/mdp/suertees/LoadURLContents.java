@@ -16,9 +16,9 @@ public class LoadURLContents implements Runnable {
     // Class to download a text-based content (e.g. HTML, XML, JSON, ...) from a URL
     // and populate a String with it that will be sent in a Message
 
-    Handler creator; // handler to the main activity, who creates this task
     private final String expectedContent_type;
     private final String string_URL;
+    Handler creator; // handler to the main activity, who creates this task
 
 
     public LoadURLContents(Handler handler, String cnt_type, String strURL) {
@@ -56,9 +56,9 @@ public class LoadURLContents implements Runnable {
 
             // Extract MIME type and subtype (get rid of the possible parameters present in the content-type header
             // Content-type: type/subtype;parameter1=value1;parameter2=value2...
-            if((actualContentType != null) && (actualContentType.contains(";"))) {
+            if ((actualContentType != null) && (actualContentType.contains(";"))) {
                 Log.d(OfficesActivity.LOADWEBTAG, threadAndClass + ": Complete HTTP content-type header from server = " + actualContentType);
-                int beginparam = actualContentType.indexOf(";", 0);
+                int beginparam = actualContentType.indexOf(";");
                 actualContentType = actualContentType.substring(0, beginparam);
             }
             Log.d(OfficesActivity.LOADWEBTAG, threadAndClass + ": MIME type reported by server = " + actualContentType);
@@ -76,7 +76,7 @@ public class LoadURLContents implements Runnable {
                 }
                 response = textBuilder.toString();
             } else { // content type not supported
-                response = "Actual content type different from expected ("+
+                response = "Actual content type different from expected (" +
                         actualContentType + " vs " + expectedContent_type + ")";
             }
             urlConnection.disconnect();
@@ -85,7 +85,7 @@ public class LoadURLContents implements Runnable {
         }
 
         Log.d(OfficesActivity.LOADWEBTAG, threadAndClass + ": load complete, sending message to UI thread");
-        if ("".equals(response) == false) {
+        if (!"".equals(response)) {
             msg_data.putString("text", response);
         }
         msg.sendToTarget();

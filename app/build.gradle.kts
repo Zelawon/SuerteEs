@@ -39,11 +39,13 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("androidx.recyclerview:recyclerview:1.2.1") //recycler view
     implementation(platform("com.google.firebase:firebase-bom:33.4.0")) // Latest BOM version
     implementation("com.google.android.gms:play-services-location:21.3.0") //For GPS
     implementation("com.google.firebase:firebase-firestore:24.0.2") // Cloud Firestore
-
+    implementation("com.google.android.material:material:1.9.0") // Material Design Dependency
 }

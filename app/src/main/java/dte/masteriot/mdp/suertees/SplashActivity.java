@@ -1,35 +1,27 @@
 package dte.masteriot.mdp.suertees;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1000; // Splash screen time
-    private FirebaseAuth mAuth;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set the app to always use night mode
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         setContentView(R.layout.activity_splash);
-
-
-        //checkLocationPermission();
 
         // Initialize FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
@@ -57,13 +49,4 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DELAY);
     }
 
-    private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-        }
-    }
 }
