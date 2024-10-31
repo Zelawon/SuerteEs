@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import dte.masteriot.mdp.suertees.offices.OfficesActivity;
 import dte.masteriot.mdp.suertees.viewlists.ViewListsActivity;
 
 public class HomeActivity extends AppCompatActivity {
