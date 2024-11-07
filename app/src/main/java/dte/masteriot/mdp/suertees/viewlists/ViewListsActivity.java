@@ -1,6 +1,10 @@
 package dte.masteriot.mdp.suertees.viewlists;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,7 +22,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import dte.masteriot.mdp.suertees.MenuAction;
 import dte.masteriot.mdp.suertees.R;
+import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
 import dte.masteriot.mdp.suertees.objects.Incident;
 
 public class ViewListsActivity extends AppCompatActivity {
@@ -103,5 +109,44 @@ public class ViewListsActivity extends AppCompatActivity {
         if (listenerRegistration != null) {
             listenerRegistration.remove(); // Remove the listener to avoid memory leaks
         }
+    }
+
+    // Method to handle toolbar icon click
+    public void onMenuIconClick(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_logout, popupMenu.getMenu());
+
+        // Set a listener for menu item clicks
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                MenuAction action = MenuAction.fromId(item.getItemId());
+                if (action != null) {
+                    switch (action) {
+                        case LOGOUT:
+                            logout();
+                            return true;
+                        // Add more cases for other actions as needed
+                        default:
+                            return false;
+                    }
+                }
+                return false; // Return false if no action was found
+            }
+        });
+
+        popupMenu.show(); // Show the popup menu
+    }
+
+    private void logout() {
+        // Sign out from Firebase
+        FirebaseAuth.getInstance().signOut();
+        // Redirect to a login activity
+        Intent intent = new Intent(ViewListsActivity.this, LoginActivity.class);
+        // Clear the activity stack and start the login activity
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
     }
 }

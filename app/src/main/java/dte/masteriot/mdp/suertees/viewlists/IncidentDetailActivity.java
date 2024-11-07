@@ -2,8 +2,11 @@ package dte.masteriot.mdp.suertees.viewlists;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +20,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import dte.masteriot.mdp.suertees.MenuAction;
 import dte.masteriot.mdp.suertees.R;
+import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
 import dte.masteriot.mdp.suertees.objects.Incident;
 
 public class IncidentDetailActivity extends AppCompatActivity {
@@ -185,6 +190,45 @@ public class IncidentDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: Incident ID not found. Please try again.", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    // Method to handle toolbar icon click
+    public void onMenuIconClick(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_logout, popupMenu.getMenu());
+
+        // Set a listener for menu item clicks
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                MenuAction action = MenuAction.fromId(item.getItemId());
+                if (action != null) {
+                    switch (action) {
+                        case LOGOUT:
+                            logout();
+                            return true;
+                        // Add more cases for other actions as needed
+                        default:
+                            return false;
+                    }
+                }
+                return false; // Return false if no action was found
+            }
+        });
+
+        popupMenu.show(); // Show the popup menu
+    }
+
+    private void logout() {
+        // Sign out from Firebase
+        FirebaseAuth.getInstance().signOut();
+        // Redirect to a login activity
+        Intent intent = new Intent(IncidentDetailActivity.this, LoginActivity.class);
+        // Clear the activity stack and start the login activity
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
     }
 
 }
