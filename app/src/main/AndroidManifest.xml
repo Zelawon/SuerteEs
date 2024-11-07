@@ -24,10 +24,10 @@
             android:name=".viewlists.ViewListsActivity"
             android:exported="false" />
         <activity
-            android:name=".OfficesActivity"
+            android:name=".offices.OfficesActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadURLContents"
+            android:name=".offices.LoadURLContents"
             android:exported="false" />
         <activity
             android:name=".viewlists.IncidentDetailActivity"

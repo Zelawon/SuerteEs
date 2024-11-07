@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import dte.masteriot.mdp.suertees.offices.OfficesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
