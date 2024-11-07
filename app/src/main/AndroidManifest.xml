@@ -18,9 +18,6 @@
         android:theme="@style/Theme.SuerteEs"
         tools:targetApi="31">
         <activity
-            android:name=".MapActivity"
-            android:exported="false" />
-        <activity
             android:name=".viewlists.ViewListsActivity"
             android:exported="false" />
         <activity
