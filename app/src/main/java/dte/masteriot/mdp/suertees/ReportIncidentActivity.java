@@ -2,7 +2,9 @@ package dte.masteriot.mdp.suertees;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -103,6 +105,28 @@ public class ReportIncidentActivity extends AppCompatActivity {
                 finish();  // Close the activity
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        title = sharedPref.getString("title", title);
+        desc = sharedPref.getString("desc", desc);
+        type = sharedPref.getString("type", type);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("title", title);
+        editor.putString("desc", desc);
+        editor.putString("type", type);
+        editor.apply();
     }
 
     private void getCurrentLocation() {
