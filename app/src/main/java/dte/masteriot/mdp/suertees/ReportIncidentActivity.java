@@ -126,7 +126,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
         editor.putString("title", title);
         editor.putString("desc", desc);
         editor.putString("type", type);
-        editor.apply();
+        editor.commit();
     }
 
     private void getCurrentLocation() {
