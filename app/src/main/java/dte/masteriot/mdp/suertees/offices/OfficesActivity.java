@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
 
     private ExecutorService es;
     private Button btBack;
-    private TextView text;
+    private ProgressBar progressBar;
 
     private DatasetOffices dataset;
     private RecyclerView recyclerView;
@@ -60,17 +61,17 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
     private static final String PREFS_NAME = "OfficesPrefs";
     private static final String PREFS_KEY_DATA = "WebContentData";
 
-
     // Define the handler that will receive the messages from the background thread:
     Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             // message received from background thread: load complete (or failure)
-            super.handleMessage(msg);
             String string_result = msg.getData().getString("text");
             if (string_result != null) {
-                // Call the onDataLoaded callback with the loaded data
                 onDataLoaded(string_result);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(OfficesActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -81,18 +82,21 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         setContentView(R.layout.activity_offices);
 
         btBack = findViewById(R.id.buttonBack);
-        text = findViewById(R.id.HTTPTextView);
+        progressBar = findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.recyclerView);
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String cachedData = prefs.getString(PREFS_KEY_DATA, null);
 
         if (cachedData != null) {
             // Data exists in SharedPreferences, load it directly
+            recyclerView.setVisibility(View.VISIBLE);
             onDataLoaded(cachedData);
         } else {
             // No cached data, proceed to download it
+            progressBar.setVisibility(View.VISIBLE); // Show the progress bar
             es = Executors.newSingleThreadExecutor();
-            Toast.makeText(this, "Loading Data", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Loading Data", Toast.LENGTH_SHORT).show();
             LoadURLContents loadURLContents = new LoadURLContents(handler, CONTENT_TYPE_JSON, URL_OFFICES);
             es.execute(loadURLContents);
 
@@ -139,8 +143,11 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
 
     @Override
     public void onDataLoaded(String data) {
-        text.setText(null);
         Log.d(LOADWEBTAG, "Data loaded: " + data);
+
+        // Hide the progress bar after loading the data
+        progressBar.setVisibility(View.GONE);  // Hide the progress bar
+        recyclerView.setVisibility(View.VISIBLE);
 
         // Save data to SharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
