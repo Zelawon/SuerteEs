@@ -33,6 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dte.masteriot.mdp.suertees.HomeActivity;
+import dte.masteriot.mdp.suertees.LightSensorManager;
 import dte.masteriot.mdp.suertees.R;
 import dte.masteriot.mdp.suertees.ReportIncidentActivity;
 import dte.masteriot.mdp.suertees.offices.model.DatasetOffices;
@@ -57,6 +58,8 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
     private DatasetOffices dataset;
     private RecyclerView recyclerView;
     MyAdapter recyclerViewAdapter;
+    private LightSensorManager lightSensorManager;
+
 
     private static final String PREFS_NAME = "OfficesPrefs";
     private static final String PREFS_KEY_DATA = "WebContentData";
@@ -122,6 +125,20 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
                         }
                     });
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        // Initialize the light sensor manager
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("LightSensorManager", "sensor stopped listening");
     }
 
     // Listener for the button:

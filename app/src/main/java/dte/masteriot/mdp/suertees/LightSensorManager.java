@@ -18,10 +18,10 @@ public class LightSensorManager {
     private final SensorManager sensorManager;
     private final Sensor lightSensor;
     private SensorEventListener lightSensorListener;
-    private MutableLiveData<Boolean> isDarkModeLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isDarkModeLiveData = new MutableLiveData<>();
     private static final float DARK_THRESHOLD = 30.0f; // Lux threshold for dark mode
-    private Context context; // Context for showing Toast messages
-
+    private final Context context; // Context for showing Toast messages
+    private boolean isListening = false;
 
     private LightSensorManager(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -29,16 +29,25 @@ public class LightSensorManager {
         this.context = context;
     }
 
-    public static LightSensorManager getInstance(Context context) {
+    public static synchronized LightSensorManager getInstance(Context context) {
         if (instance == null) {
-            instance = new LightSensorManager(context);
+            instance = new LightSensorManager(context.getApplicationContext()); // Use app context to prevent leaks
         }
         return instance;
+    }
+
+    public LiveData<Boolean> getIsDarkModeLiveData() {
+        return isDarkModeLiveData;
     }
 
     public void startListening() {
         if (lightSensor == null) {
             Log.w(TAG, "No light sensor found.");
+            return;
+        }
+
+        if (isListening) {
+            Log.d(TAG, "Light sensor is already listening.");
             return;
         }
 
@@ -52,7 +61,6 @@ public class LightSensorManager {
                 boolean newDarkMode = lux < DARK_THRESHOLD;
                 if (isDarkModeLiveData.getValue() == null || isDarkModeLiveData.getValue() != newDarkMode) {
                     isDarkModeLiveData.setValue(newDarkMode);
-                    Log.d(TAG, "Is dark mode: " + newDarkMode);
 
                     // Show a Toast message when dark mode changes
                     if(newDarkMode){
@@ -68,16 +76,16 @@ public class LightSensorManager {
         };
 
         sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        isListening = true;
+        Log.d(TAG, "Light sensor started listening.");
     }
 
     public void stopListening() {
-        if (lightSensorListener != null) {
+        if (isListening && lightSensorListener != null) {
             sensorManager.unregisterListener(lightSensorListener);
+            lightSensorListener = null;
+            isListening = false;
+            Log.d(TAG, "Light sensor stopped listening and listener unregistered.");
         }
-    }
-
-    // Returns LiveData that can be observed for dark mode changes
-    public LiveData<Boolean> isDarkMode() {
-        return isDarkModeLiveData;
     }
 }

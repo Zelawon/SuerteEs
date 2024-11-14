@@ -29,25 +29,28 @@ import dte.masteriot.mdp.suertees.viewlists.ViewListsActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private LightSensorManager lightSensorManager;
-    private boolean isDarkMode = false;
     private Button modeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        // Initialize the light sensor manager
-        lightSensorManager = LightSensorManager.getInstance(this);
-        lightSensorManager.startListening();
-
         modeButton = findViewById(R.id.button_mode);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        // Initialize the light sensor manager
+        Log.d("LightSensorManager","home sensor started listening");
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+    }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
+        Log.d("LightSensorManager","home sensor stopped listening");
         lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import dte.masteriot.mdp.suertees.LightSensorManager;
 import dte.masteriot.mdp.suertees.MenuAction;
 import dte.masteriot.mdp.suertees.R;
 import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
@@ -35,6 +36,8 @@ public class ViewListsActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private CollectionReference userIncidentsRef; // Reference to user's incidents
     private ListenerRegistration listenerRegistration;
+    private LightSensorManager lightSensorManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,16 @@ public class ViewListsActivity extends AppCompatActivity {
         super.onResume();
         // Fetch incidents again when the activity resumes
         fetchIncidents();
+
+        // Initialize the light sensor manager
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 
     private void fetchIncidents() {

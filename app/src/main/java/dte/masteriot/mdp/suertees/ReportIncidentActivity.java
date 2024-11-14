@@ -10,6 +10,7 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -59,6 +60,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
     // Firestore instance
     private FirebaseFirestore firestore;
     private FusedLocationProviderClient locationProviderClient;
+    private LightSensorManager lightSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,20 @@ public class ReportIncidentActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        // Initialize the light sensor manager
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.stopListening(); // Stop sensor updates when activity stops
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
@@ -127,6 +143,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
         editor.putString("desc", desc);
         editor.putString("type", type);
         editor.commit();
+
     }
 
     private void getCurrentLocation() {
