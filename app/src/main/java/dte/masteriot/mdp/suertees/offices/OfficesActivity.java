@@ -136,9 +136,9 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("LightSensorManager", "sensor stopped listening");
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 
     // Listener for the button:
