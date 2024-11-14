@@ -33,10 +33,14 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/HTTPTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:indeterminate="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -45,11 +49,11 @@
         android:layout_margin="5dp"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/buttonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <Button
         android:id="@+id/buttonBack"
