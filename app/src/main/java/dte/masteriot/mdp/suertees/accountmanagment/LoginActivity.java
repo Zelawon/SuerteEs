@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import dte.masteriot.mdp.suertees.Admin.AdminActivity;
 import dte.masteriot.mdp.suertees.HomeActivity;
 import dte.masteriot.mdp.suertees.R;
 
@@ -74,17 +75,24 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Login successful, navigate to the main activity
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                // Show a message for successful login
-                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                finish();
+                                String userId = firebaseAuth.getCurrentUser().getUid();
+                                if (userId.equals("4KobjJEKCQWxVVRx7lgjSVXkp7I2")) {
+                                    // Navigate to AdminActivity if the user ID matches
+                                    startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                                    Toast.makeText(LoginActivity.this, "Admin login successful", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    // Navigate to HomeActivity for other users
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
                             } else {
-                                // Login failed, display a message to the user.
                                 Toast.makeText(getApplicationContext(), "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         }
     }
+
 }

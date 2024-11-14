@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,19 +20,89 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import dte.masteriot.mdp.suertees.offices.OfficesActivity;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hivemq.client.mqtt.MqttClient;
+import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
+import dte.masteriot.mdp.suertees.offices.OfficesActivity;
 import dte.masteriot.mdp.suertees.viewlists.ViewListsActivity;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final String TOPIC = "incidents";
+    private Mqtt3AsyncClient mqttClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        // Create and connect the MQTT client
+        createMQTTClient();
+        connectToBroker();
+    }
+
+    private void createMQTTClient() {
+        mqttClient = MqttClient.builder()
+                .useMqttVersion3()
+                .identifier("home-activity-subscriber")
+                .serverHost("192.168.56.1")  // MQTT Broker IP address
+                .serverPort(1883)  // MQTT Broker port
+                .buildAsync();
+    }
+
+    private void connectToBroker() {
+        mqttClient.connectWith()
+                .send()
+                .whenComplete((connAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(HomeActivity.this, "Failed to connect to broker", Toast.LENGTH_SHORT).show();
+                    } else {
+                        subscribeToTopic();
+                    }
+                });
+    }
+
+    private void subscribeToTopic() {
+        mqttClient.subscribeWith()
+                .topicFilter(TOPIC)  // The topic to subscribe to
+                .callback(publish -> {
+                    String message = new String(publish.getPayloadAsBytes());
+                    runOnUiThread(() -> {
+                        int startIndex = message.indexOf("ID:") + 3;  // Start after "ID:"
+                        int endIndex = message.indexOf("Incident:");  // End before "Incident:"
+                        String id = message.substring(startIndex, endIndex).trim();
+                        int startIndex2 = message.indexOf("Incident:");
+                        String incidentMessage = message.substring(startIndex2).trim();
+                        // Check if the authenticated user ID matches the ID in the message
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if (currentUserId.equals(id)) {
+                            // Show the received message as a Toast if the IDs match
+                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), incidentMessage, Snackbar.LENGTH_LONG);
+                            View snackbarView = snackbar.getView();
+                            // Change background color
+//                            snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.snackbarBackground));
+                            // Adjust the text size and padding
+                            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            textView.setTextSize(18); // Set larger text size
+                            textView.setPadding(32, 32, 32, 32); // Increase padding
+                            textView.setTextColor(Color.WHITE); // Set text color
+
+                            snackbar.show();
+                        }
+                    });
+                })
+                .send()
+                .whenComplete((subAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(HomeActivity.this, "Failed to subscribe to topic", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    }
+                });
     }
 
     public void reportIssue(View v) {

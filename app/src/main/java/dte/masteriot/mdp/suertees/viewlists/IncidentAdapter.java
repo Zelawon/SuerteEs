@@ -10,15 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
+import dte.masteriot.mdp.suertees.Admin.IncidentAdminActivity;
 import dte.masteriot.mdp.suertees.R;
 import dte.masteriot.mdp.suertees.objects.Incident;
 
 public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.IncidentViewHolder> {
     private List<Incident> incidentList;
     private Context context;
-
 
     public IncidentAdapter(List<Incident> incidentList, Context context) {
         this.incidentList = incidentList;
@@ -38,17 +40,21 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
         Incident incident = incidentList.get(position);
         holder.titleTextView.setText(incident.getTitle());
         holder.descTextView.setText(incident.getDescription());
-//        holder.typeTextView.setText(incident.getType());
         holder.dateTextView.setText(incident.getDate());
-//        holder.locationTextView.setText(incident.getLocation());
         holder.urgencyTextView.setText(incident.getUrgency());
 
-        // Long click listener
-        holder.itemView.setOnLongClickListener(v -> {
-            Intent intent = new Intent(context, IncidentDetailActivity.class); // Change to your detail activity
-            intent.putExtra("incidentId", incident.getId()); // Pass the incident ID to the detail activity
+        // Click listener
+        holder.itemView.setOnClickListener(v -> {
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Intent intent;
+            // Check if the user is the specified admin
+            if ("4KobjJEKCQWxVVRx7lgjSVXkp7I2".equals(currentUserId)) {
+                intent = new Intent(context, IncidentAdminActivity.class); // Navigate to admin activity
+            } else {
+                intent = new Intent(context, IncidentDetailActivity.class); // Navigate to detail activity
+            }
+            intent.putExtra("incidentId", incident.getId()); // Pass the incident ID
             context.startActivity(intent);
-            return true; // Indicate that the long click was handled
         });
     }
 
@@ -60,9 +66,9 @@ public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.Incide
     public static class IncidentViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
         public TextView descTextView;
-//        public TextView typeTextView;
+        //        public TextView typeTextView;
         public TextView dateTextView;
-//        public TextView locationTextView;
+        //        public TextView locationTextView;
         public TextView urgencyTextView;
 
         public IncidentViewHolder(View itemView) {
