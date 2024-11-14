@@ -13,19 +13,21 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
 
     // Holds references to individual item views
     TextView title;
+    TextView address;
 
     private static final String TAG = "TAGListOfItems, MyViewHolder";
 
     public MyViewHolder(View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.titleOffice);
+        address = itemView.findViewById(R.id.addressOffice);
     }
 
     void bindValues(Item item) {
         // give values to the elements contained in the item view.
         // formats the title's text color depending on the "isSelected" argument.
         title.setText(item.getName());
-
+        address.setText(item.getAddress());
     }
 
 }
