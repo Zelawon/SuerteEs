@@ -9,8 +9,10 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,14 +34,23 @@ import dte.masteriot.mdp.suertees.viewlists.ViewListsActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private LightSensorManager lightSensorManager;
+    private boolean isDarkMode = false;
+    private Button modeButton;
+
     private static final String TOPIC = "incidents";
     private Mqtt3AsyncClient mqttClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        // Initialize the light sensor manager
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+
+        modeButton = findViewById(R.id.button_mode);
 
         // Create and connect the MQTT client
         createMQTTClient();
@@ -105,12 +117,19 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        lightSensorManager.stopListening(); // Stop sensor updates when activity stops
+    }
+
+    // Report an issue with location permission check
     public void reportIssue(View v) {
-        // Check for location permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // Request location permissions
+            // Request permissions if they are not granted
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
@@ -135,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    // Handle the permission request result
+    // Handle permission request result
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -148,12 +167,9 @@ public class HomeActivity extends AppCompatActivity {
                     // Check if the user permanently denied the permission
                     boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
                     if (!showRationale) {
-                        // User chose "Don't ask again" or permanently denied permission
-                        Toast.makeText(this, "Location permission is required. Please enable it in app settings.", Toast.LENGTH_LONG).show();
-
-                        // Open app settings
+                        Toast.makeText(this, "Location permission is required. Enable it in app settings.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.setData(Uri.parse("package:" + getPackageName())); // Set the URI to your package
+                        intent.setData(Uri.parse("package:" + getPackageName()));
                         startActivity(intent);
                     } else {
                         // Permission denied without "Don't ask again"
@@ -216,6 +232,25 @@ public class HomeActivity extends AppCompatActivity {
 
         popupMenu.show(); // Show the popup menu
     }
+
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            modeButton.setText("DARK MODE");  // Update the button text
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            modeButton.setText("LIGHT MODE"); // Update the button text
+        }
+
+        getDelegate().applyDayNight();
+    }
+
+
 
     private void logout() {
         // Sign out from Firebase
