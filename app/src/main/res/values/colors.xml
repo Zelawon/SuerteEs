@@ -7,4 +7,6 @@
     <color name="gray">#9E9E9E</color>
     <color name="darkest_gray">#242222</color>
 
+    <color name="background_color">#FFEFEF</color>
+
 </resources>

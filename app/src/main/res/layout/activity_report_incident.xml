@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".ReportIncidentActivity">
 
@@ -64,7 +64,7 @@
                 android:layout_column="0"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:text="Title:"
+                android:text="Title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SuerteEs</string>
     <string name="slogan">Suerte es Tener un Barrio\nen Buen Estado</string>
-    <string name="toolbar_icon_desc">The app\'s logo, a hexagon with Suerte written inside it.</string><!--content description for accessibility -->
+    <string name="toolbar_icon_desc">The app\'s logo, a hexagon with Suerte written inside it.</string>
+    <string name="change_mode">Button to change between dark and light mode.</string>
+    <!--content description for accessibility -->
 </resources>
