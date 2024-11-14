@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -35,11 +37,38 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- RecyclerView for incidents -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_app_bar"
         android:layout_below="@id/toolbar"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:visibility="visible" />
+
+    <!-- No incidents found message -->
+    <TextView
+        android:id="@+id/noIncidentsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="No incidents found."
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/blue"
+        app:fabAlignmentMode="center"
+        app:fabCradleMargin="8dp"
+        app:fabCradleRoundedCornerRadius="16dp"
+        app:fabCradleVerticalOffset="10dp" />
+
 
 </RelativeLayout>

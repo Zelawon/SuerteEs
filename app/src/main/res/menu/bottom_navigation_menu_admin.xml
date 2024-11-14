@@ -1,0 +1,13 @@
+<!-- res/menu/bottom_app_bar_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_item1"
+        android:icon="@drawable/ic_logout_24"
+        android:showAsAction="always|withText"
+        android:title="Home" />
+    <item
+        android:id="@+id/action_item2"
+        android:icon="@drawable/ic_logout_24"
+        android:showAsAction="always|withText"
+        android:title="Settings" />
+</menu>

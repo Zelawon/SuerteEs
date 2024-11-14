@@ -2,16 +2,17 @@ package dte.masteriot.mdp.suertees.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,11 +37,12 @@ public class AdminActivity extends AppCompatActivity {
     private CollectionReference userIncidentsRef; // Reference to user's incidents
     private ListenerRegistration listenerRegistration;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_view_lists);
+        setContentView(R.layout.activity_admin);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,8 +52,16 @@ public class AdminActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
 
+        BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
+        setSupportActionBar(bottomAppBar);
+
         // Fetch incidents when the activity is created
         fetchIncidents();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bottom_navigation_menu_admin, menu);
+        return true;
     }
 
     @Override
@@ -79,10 +89,10 @@ public class AdminActivity extends AppCompatActivity {
                     incidentList.add(incident);
                 }
                 incidentAdapter.notifyDataSetChanged(); // Notify adapter of data change
+                findViewById(R.id.noIncidentsText).setVisibility(View.GONE); // Hide "No incidents found" message if data is present
             } else {
-                // Handle empty database
-                Toast.makeText(AdminActivity.this, "No incidents found.", Toast.LENGTH_SHORT).show();
-                finish();
+                // Show "No incidents found" message if Firestore is empty
+                findViewById(R.id.noIncidentsText).setVisibility(View.VISIBLE); // Show the "No incidents found" TextView
             }
         });
     }
