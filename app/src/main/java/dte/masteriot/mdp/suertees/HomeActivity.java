@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         // Initialize the light sensor manager
-        Log.d("LightSensorManager","home sensor started listening");
         lightSensorManager = LightSensorManager.getInstance(this);
         lightSensorManager.startListening();
     }
@@ -50,7 +49,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("LightSensorManager","home sensor stopped listening");
         lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 
