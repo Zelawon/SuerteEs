@@ -1,9 +1,21 @@
 package dte.masteriot.mdp.suertees.offices.model;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +26,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import dte.masteriot.mdp.suertees.ReportIncidentActivity;
+import dte.masteriot.mdp.suertees.offices.OfficesActivity;
 
 public class DatasetOffices {
 
@@ -34,14 +49,35 @@ public class DatasetOffices {
             JSONArray gardenArray = obj.getJSONArray("@graph");
             // implement for loop for getting users list data
             for (int i = 0; i < gardenArray.length(); i++) {
-                // create a JSONObject for fetching single user data
-                JSONObject userDetail = gardenArray.getJSONObject(i);
-                // fetch email and name and store it in arraylist
-                names_ArrayList.add(userDetail.getString("title"));
-                Log.d("Dataset", "Office name: " + userDetail.getString("title") );
-            }
-            for (int i = 0; i < names_ArrayList.size(); ++i) {
-                listofitems.add(new Item(names_ArrayList.get(i), (long) i));
+                // Create a JSONObject for each office
+                JSONObject officeDetail = gardenArray.getJSONObject(i);
+
+                // Fetch and log the office name
+                String officeName = officeDetail.getString("title");
+                names_ArrayList.add(officeName);
+                Log.d("Dataset", "Office name: " + officeName);
+
+                // Fetch the address details
+                JSONObject addressObject = officeDetail.getJSONObject("address");
+                String streetAddress = addressObject.getString("street-address");
+                String locality = addressObject.optString("locality", ""); // Use optString to handle missing fields
+                String postalCode = addressObject.optString("postal-code", "");
+
+                // Log the address information
+                String fullAddress = streetAddress + ", " + locality + ", " + postalCode;
+                Log.d("Dataset", "Office address: " + fullAddress);
+
+                // Fetch latitude and longitude
+                JSONObject locationObject = officeDetail.getJSONObject("location");
+                String latitude = locationObject.getString("latitude");
+                String longitude = locationObject.getString("longitude");
+
+                // Log the latitude and longitude
+                Log.d("Dataset", "Latitude: " + latitude + ", Longitude: " + longitude);
+
+
+                Item officeItem = new Item(officeName, fullAddress, latitude, longitude, (long)i);
+                listofitems.add(officeItem);
             }
             Log.d("Dataset", "Number of items in dataset: " + listofitems.size());
         } catch (JSONException ex) {
@@ -49,7 +85,6 @@ public class DatasetOffices {
             throw new RuntimeException(ex);
         }
     }
-
 
     public int getSize() {
         return listofitems.size();
@@ -66,9 +101,32 @@ public class DatasetOffices {
     public int getPositionOfKey(Long searchedkey) {
         // Look for the position of the Item with key = searchedkey.
         // The following works because in Item, the method "equals" is overriden to compare only keys:
-        int position = listofitems.indexOf(new Item("placeholder", searchedkey));
+        int position = listofitems.indexOf(new Item("placeholder", "placeholder", "placeholder", "placeholder", searchedkey));
         //Log.d(TAG, "getPositionOfKey() called for key " + searchedkey + ", returns " + position);
         return position;
+    }
+
+    // Method to sort the list of items by distance to a given location
+    public void sortItemsByDistance(double currentLatitude, double currentLongitude) {
+        for (Item item : listofitems) {
+            // Get the latitude and longitude of the office from Item
+            double itemLatitude = Double.parseDouble(item.getLatitude());
+            double itemLongitude = Double.parseDouble(item.getLongitude());
+
+            // Calculate the distance between the office and the user's location
+            float[] results = new float[1];
+            Location.distanceBetween(currentLatitude, currentLongitude, itemLatitude, itemLongitude, results);
+
+            // Set the distance in the Item object (assumes you have a `setDistance` method in the Item class)
+            item.setDistance(results[0]);
+        }
+
+        // Sort the list of items by the calculated distance
+        Collections.sort(listofitems, (item1, item2) -> Float.compare(item1.getDistance(), item2.getDistance()));
+    }
+
+    public List<Item> getListOfItems() {
+        return listofitems;
     }
 
 }
