@@ -31,6 +31,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    // Resolve packaging issues with duplicate META-INF files using the new approach
+    packaging {
+        resources.excludes.add("META-INF/INDEX.LIST")
+        resources.excludes.add("META-INF/io.netty.versions.properties")
+    }
 }
 
 dependencies {
@@ -43,9 +49,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation ("androidx.recyclerview:recyclerview:1.2.1") //recycler view
+    implementation("androidx.recyclerview:recyclerview:1.2.1") // recycler view
     implementation(platform("com.google.firebase:firebase-bom:33.4.0")) // Latest BOM version
-    implementation("com.google.android.gms:play-services-location:21.3.0") //For GPS
+    implementation("com.google.android.gms:play-services-location:21.3.0") // For GPS
     implementation("com.google.firebase:firebase-firestore:24.0.2") // Cloud Firestore
     implementation("com.google.android.material:material:1.9.0") // Material Design Dependency
+
+    // MQTT Client dependencies
+    implementation("com.hivemq:hivemq-mqtt-client:1.3.3")
 }

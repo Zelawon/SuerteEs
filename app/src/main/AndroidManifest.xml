@@ -18,6 +18,15 @@
         android:theme="@style/Theme_SuerteEs_Light"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.IncidentAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Subscriber.SubscriberActivity"
+            android:exported="false" />
+        <activity
             android:name=".viewlists.ViewListsActivity"
             android:exported="false" />
         <activity
@@ -46,7 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

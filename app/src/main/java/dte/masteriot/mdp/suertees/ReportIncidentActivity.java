@@ -200,7 +200,6 @@ public class ReportIncidentActivity extends AppCompatActivity {
 
             // Create an Incident object with userID and generated ID
             Incident incident = new Incident(incidentId, title, desc, type, date, locationText, urgency, userId);
-
             // Show a progress dialog while adding the incident
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Reporting incident...");

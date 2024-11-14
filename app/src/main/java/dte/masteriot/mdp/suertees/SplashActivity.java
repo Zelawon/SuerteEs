@@ -33,8 +33,8 @@ public class SplashActivity extends AppCompatActivity {
                 // Check if user is signed in (non-null) and update UI accordingly.
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 if (currentUser != null) {
-                    // User is signed in, go to the start activity
-                    //startActivity(new Intent(MainActivity.this, HomeActivity.class));
+////                     User is signed in, go to the start activity
+//                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
 
                     //TO-REMOVE Later and Change Logic Back
                     // If user is logged in, sign them out & Redirect to login page
