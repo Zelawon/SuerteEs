@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Parent theme for both light and dark modes -->
     <style name="Base.Theme.SuerteEs" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Customize the light theme here -->
+        <!--
+        <item name="colorPrimary">@color/my_light_primary</item>
+        <item name="colorPrimaryVariant">@color/my_light_primary_variant</item>
+        <item name="colorSecondary">@color/my_light_secondary</item>
+        <item name="colorSurface">@color/my_light_surface</item>
+        <item name="colorBackground">@color/my_light_background</item>
+        -->
+        <item name="colorPrimary">#00b4d8</item>
+
+
+
     </style>
 
-    <style name="Theme.SuerteEs" parent="Base.Theme.SuerteEs" />
+    <!-- Light mode theme -->
+    <style name="Theme_SuerteEs_Light" parent="Base.Theme.SuerteEs">
+        <!-- Additional customizations if needed -->
+    </style>
+
 </resources>
