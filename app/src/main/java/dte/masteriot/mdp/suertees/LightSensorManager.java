@@ -8,7 +8,6 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class LightSensorManager {
@@ -34,10 +33,6 @@ public class LightSensorManager {
             instance = new LightSensorManager(context.getApplicationContext()); // Use app context to prevent leaks
         }
         return instance;
-    }
-
-    public LiveData<Boolean> getIsDarkModeLiveData() {
-        return isDarkModeLiveData;
     }
 
     public void startListening() {
