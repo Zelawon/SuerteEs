@@ -64,7 +64,7 @@
                 android:layout_column="0"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:text="Title:"
+                android:text="Title"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
