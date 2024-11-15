@@ -145,9 +145,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
 
     // Listener for the button:
     public void goBack(View view) {
-        // Creating Intent For Navigating to HomeActivity
-        Intent i = new Intent(OfficesActivity.this, HomeActivity.class);
-        startActivity(i);
+        finish();
     }
 
     private void sortItemsByDistance() {

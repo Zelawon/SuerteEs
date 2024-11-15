@@ -74,6 +74,10 @@ public class ViewListsActivity extends AppCompatActivity {
         lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 
+    public void goBack(View view) {
+        finish();
+    }
+
     private void fetchIncidents() {
         FirebaseAuth auth = FirebaseAuth.getInstance(); // Get the FirebaseAuth instance
         FirebaseUser currentUser = auth.getCurrentUser(); // Get the current authenticated user

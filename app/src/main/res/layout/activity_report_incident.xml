@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:orientation="vertical"
     tools:context=".ReportIncidentActivity">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ReportIncidentActivity">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbar_background"
+        android:layout_alignParentTop="true">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbar_background">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/toolbar_icon"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:contentDescription="@string/toolbar_icon_desc"
-                    android:onClick="onMenuIconClick"
-                    android:src="@drawable/suerte_sin_bg" />
-
-                <TextView
-                    android:id="@+id/placeholder_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/app_name"
-                    android:textColor="@color/toolbar_text"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <GridLayout
-            android:id="@+id/gridLayout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="20dp"
-            android:columnCount="2"
-            android:rowCount="6">
+            android:gravity="start"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/toolbar_icon_desc"
+                android:onClick="onMenuIconClick"
+                android:src="@drawable/suerte_sin_bg" />
+
+            <TextView
+                android:id="@+id/placeholder_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:text="@string/app_name"
+                android:textColor="@color/toolbar_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ScrollView for content between Toolbar and Bottom Bar -->
+    <!-- ScrollView for content between Toolbar and Bottom Bar -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottomBar"
+        android:background="@color/background_color">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title field -->
             <TextView
                 android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="Title"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -71,24 +70,18 @@
 
             <EditText
                 android:id="@+id/editTextTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:ems="10"
+                android:layout_marginBottom="16dp"
                 android:hint="Click to Type"
                 android:textColor="@color/primary_text" />
 
+            <!-- Description field -->
             <TextView
                 android:id="@+id/textViewDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
-
+                android:layout_marginBottom="8dp"
                 android:text="Description"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -96,23 +89,18 @@
 
             <EditText
                 android:id="@+id/editTextDesc"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:ems="10"
+                android:layout_marginBottom="16dp"
                 android:hint="Click to Type"
                 android:textColor="@color/primary_text" />
 
+            <!-- Date field -->
             <TextView
                 android:id="@+id/textDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="Date"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -122,22 +110,16 @@
                 android:id="@+id/textViewCurrentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="16dp"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
+            <!-- Location field -->
             <TextView
                 android:id="@+id/textViewLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="Location"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -147,22 +129,16 @@
                 android:id="@+id/textViewCurrentLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="16dp"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
+            <!-- Type field (Spinner) -->
             <TextView
                 android:id="@+id/textViewType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="Type"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -170,24 +146,19 @@
 
             <Spinner
                 android:id="@+id/spinnerType"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="4"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="16dp"
                 android:spinnerMode="dropdown"
                 android:textColor="@color/primary_text"
                 android:textSize="16dp" />
 
+            <!-- Urgency field (RadioGroup) -->
             <TextView
                 android:id="@+id/textViewUrgency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_row="5"
-                android:layout_column="0"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="Urgency"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
@@ -195,12 +166,10 @@
 
             <RadioGroup
                 android:id="@+id/urgencyGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="5"
-                android:layout_column="1"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
 
                 <RadioButton
                     android:id="@+id/radioLowUrgency"
@@ -232,37 +201,42 @@
 
             </RadioGroup>
 
-        </GridLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <Button
-                android:id="@+id/buttonCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
-                android:onClick="cancel"
-                android:text="Cancel" />
-
-            <Button
-                android:id="@+id/buttonSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
-                android:onClick="submit"
-                android:text="Submit" />
-
         </LinearLayout>
+
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/background_color"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primary_button_background"
+            android:textColor="@color/button_text"
+            android:onClick="cancel"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primary_button_background"
+            android:textColor="@color/button_text"
+            android:onClick="submit"
+            android:text="Submit" />
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>
