@@ -5,9 +5,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.MutableLiveData;
 
 public class LightSensorManager {
@@ -19,18 +22,24 @@ public class LightSensorManager {
     private SensorEventListener lightSensorListener;
     private final MutableLiveData<Boolean> isDarkModeLiveData = new MutableLiveData<>();
     private static final float DARK_THRESHOLD = 30.0f; // Lux threshold for dark mode
-    private final Context context; // Context for showing Toast messages
+    private static final long DARK_MODE_DELAY = 3000; // seconds delay
+    private final Context context;
     private boolean isListening = false;
+
+    private boolean isDarkMode = false; // Tracks current dark mode state
+    private Handler handler; // Handler to manage delayed notifications
+    private Runnable darkModeRunnable; // Runnable to notify user
 
     private LightSensorManager(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         this.context = context;
+        this.handler = new Handler(Looper.getMainLooper());
     }
 
     public static synchronized LightSensorManager getInstance(Context context) {
         if (instance == null) {
-            instance = new LightSensorManager(context.getApplicationContext()); // Use app context to prevent leaks
+            instance = new LightSensorManager(context.getApplicationContext());
         }
         return instance;
     }
@@ -53,13 +62,33 @@ public class LightSensorManager {
                 Log.d(TAG, "Light sensor value (lux): " + lux);
 
                 // Determine if dark mode should be enabled
-                boolean newDarkMode = lux < DARK_THRESHOLD;
-                if (isDarkModeLiveData.getValue() == null || isDarkModeLiveData.getValue() != newDarkMode) {
-                    isDarkModeLiveData.setValue(newDarkMode);
+                if (lux < DARK_THRESHOLD) {
+                    if (!isDarkMode) {
+                        // Schedule dark mode notification
+                        if (darkModeRunnable == null) {
+                            darkModeRunnable = () -> {
+                                isDarkMode = true;
+                                isDarkModeLiveData.setValue(true);
+                                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                                    Toast.makeText(context, "Ambient light is low.\nSwitching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
+                                }
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                Log.d(TAG, "Dark mode activated.");
+                            };
+                        }
+                        handler.postDelayed(darkModeRunnable, DARK_MODE_DELAY);
+                    }
+                } else {
+                    // Cancel dark mode notification if light goes above threshold
+                    if (darkModeRunnable != null) {
+                        handler.removeCallbacks(darkModeRunnable);
+                        darkModeRunnable = null;
+                    }
 
-                    // Show a Toast message when dark mode changes
-                    if(newDarkMode){
-                        Toast.makeText(context, "Consider Changing to Dark Mode", Toast.LENGTH_SHORT).show();
+                    if (isDarkMode) {
+                        isDarkMode = false;
+                        isDarkModeLiveData.setValue(false);
+                        Log.d(TAG, "Dark mode deactivated.");
                     }
                 }
             }
@@ -80,6 +109,13 @@ public class LightSensorManager {
             sensorManager.unregisterListener(lightSensorListener);
             lightSensorListener = null;
             isListening = false;
+
+            // Cancel any pending notifications
+            if (darkModeRunnable != null) {
+                handler.removeCallbacks(darkModeRunnable);
+                darkModeRunnable = null;
+            }
+
             Log.d(TAG, "Light sensor stopped listening and listener unregistered.");
         }
     }
