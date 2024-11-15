@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="10dp"
-            android:text="Please sign up to start using SuerteEs:"
+            android:text="Please sign up to start using Suerte Es:"
             android:textColor="@color/secondary_text"
             android:textSize="17sp" />
 
@@ -129,7 +129,7 @@
             android:layout_marginTop="16dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="You already have an account? Log in!"
+            android:text="Do you already have an account? Log in!"
             android:textColor="@color/secondary_text"
             android:textSize="16sp" />
 
