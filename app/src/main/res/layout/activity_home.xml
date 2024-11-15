@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary_button_background"
             android:textColor="@color/button_text"
-            android:text="DARK MODE"
+            android:text="@string/buttom_mode_text"
             android:contentDescription="@string/change_mode"
             android:onClick="changeTheme" />
 
