@@ -27,17 +27,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dte.masteriot.mdp.suertees.HomeActivity;
 import dte.masteriot.mdp.suertees.LightSensorManager;
 import dte.masteriot.mdp.suertees.R;
-import dte.masteriot.mdp.suertees.ReportIncidentActivity;
 import dte.masteriot.mdp.suertees.offices.model.DatasetOffices;
 import dte.masteriot.mdp.suertees.offices.adapter.MyAdapter;
-import dte.masteriot.mdp.suertees.offices.model.Item;
 
 
 public class OfficesActivity extends AppCompatActivity implements OnDataLoadedListener {

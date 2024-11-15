@@ -10,10 +10,6 @@ public class Incident {
     private String urgency;
     private String userID; // Add userID field
 
-    // Default constructor required for calls to DataSnapshot.getValue(Incident.class)
-    public Incident() {
-    }
-
     public Incident(String id, String title, String description, String type, String date, String location, String urgency, String userID) {
         this.id = id; // Initialize ID
         this.title = title;

@@ -1,6 +1,5 @@
 package dte.masteriot.mdp.suertees.offices.adapter;
 
-import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,8 +23,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     }
 
     void bindValues(Item item) {
-        // give values to the elements contained in the item view.
-        // formats the title's text color depending on the "isSelected" argument.
+        // give values to the elements contained in the item view
         title.setText(item.getName());
         address.setText(item.getAddress());
     }

@@ -1,8 +1,6 @@
 package dte.masteriot.mdp.suertees.offices;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +13,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LoadURLContents implements Runnable {
-    // Class to download a text-based content (e.g. HTML, XML, JSON, ...) from a URL
+    // Class to download a text-based content from a URL
     // and populate a String with it that will be sent in a Message
 
     private final String expectedContent_type;
     private final String string_URL;
-    Handler creator; // handler to the main activity, who creates this task
+    Handler creator; // handler to the main activity, that creates this task
 
 
     public LoadURLContents(Handler handler, String cnt_type, String strURL) {

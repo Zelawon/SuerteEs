@@ -61,6 +61,10 @@ public class LightSensorManager {
                 float lux = event.values[0];
                 Log.d(TAG, "Light sensor value (lux): " + lux);
 
+                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO){
+                    isDarkMode = false;
+                }
+
                 // Determine if dark mode should be enabled
                 if (lux < DARK_THRESHOLD) {
                     if (!isDarkMode) {
@@ -70,7 +74,7 @@ public class LightSensorManager {
                                 isDarkMode = true;
                                 isDarkModeLiveData.setValue(true);
                                 if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                                    Toast.makeText(context, "Ambient light is low.\nSwitching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Ambient light is low. Switching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
                                 }
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                                 Log.d(TAG, "Dark mode activated.");

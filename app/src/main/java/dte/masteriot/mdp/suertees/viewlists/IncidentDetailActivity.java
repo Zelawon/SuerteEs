@@ -79,7 +79,7 @@ public class IncidentDetailActivity extends AppCompatActivity {
                                 findViewById(R.id.buttonDelete).setVisibility(View.VISIBLE);
                             }
                         } else {
-                            //If the Incident doesnt belong to the user
+                            // If the Incident does not belong to the user
                             // Attempt to retrieve from the "allIncidents" collection
                             retrieveFromAllIncidents(incidentId);
                         }
