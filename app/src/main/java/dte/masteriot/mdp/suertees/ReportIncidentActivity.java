@@ -10,7 +10,6 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
