@@ -240,11 +240,9 @@ public class HomeActivity extends AppCompatActivity {
         if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
             Log.d("button", "Switching to light mode");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            modeButton.setText("DARK MODE");  // Update the button text
         } else {
             Log.d("button", "Switching to dark mode");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            modeButton.setText("LIGHT MODE"); // Update the button text
         }
 
         getDelegate().applyDayNight();
