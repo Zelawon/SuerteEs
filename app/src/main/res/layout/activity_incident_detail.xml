@@ -75,7 +75,7 @@
                     android:id="@+id/textViewActualTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
 
@@ -94,7 +94,7 @@
                     android:id="@+id/textViewActualDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
 
@@ -113,7 +113,7 @@
                     android:id="@+id/textViewActualDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Location"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp"
@@ -133,7 +133,7 @@
                     android:id="@+id/textViewActualLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
@@ -153,7 +153,7 @@
                     android:id="@+id/textViewActualType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
 
@@ -172,7 +172,7 @@
                     android:id="@+id/textViewActualUrgency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:textColor="@color/primary_text"
                     android:textSize="20sp" />
 
