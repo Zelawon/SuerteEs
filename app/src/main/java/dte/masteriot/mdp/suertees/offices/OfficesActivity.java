@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -122,6 +121,12 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
                                 // Call sortItemsByDistance once location is available
                                 sortItemsByDistance();
                             }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(OfficesActivity.this, "Failed to get location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
