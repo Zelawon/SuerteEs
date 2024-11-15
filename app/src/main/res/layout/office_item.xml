@@ -6,11 +6,13 @@
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="10dp"
     android:layout_margin="3dp"
+    android:backgroundTint="@color/background_color"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:backgroundTint="@color/background_color">
 
         <TextView
             android:id="@+id/titleOffice"
@@ -20,7 +22,8 @@
             android:singleLine="false"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-            android:text="Placeholder for title" />
+            android:text="Placeholder for title"
+            android:textColor="@color/primary_text"/>
 
         <TextView
             android:id="@+id/addressOffice"
@@ -29,7 +32,8 @@
             android:singleLine="true"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-            android:text="Placeholder for address" />
+            android:text="Placeholder for address"
+            android:textColor="@color/primary_text"/>
 
     </LinearLayout>
 

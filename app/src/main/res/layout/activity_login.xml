@@ -31,7 +31,7 @@
             android:layout_marginTop="16dp"
             android:text="Welcome to Suerte Es"
             android:textAlignment="center"
-            android:textColor="@color/blue"
+            android:textColor="@color/primary_text"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Sign in to continue"
-            android:textColor="@color/gray"
+            android:textColor="@color/secondary_text"
             android:textSize="18sp" />
 
         <!-- Email TextInputLayout -->
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:textColorHint="@color/gray"
+            android:textColorHint="@color/secondary_text"
             app:startIconContentDescription="Email"
             app:startIconDrawable="@drawable/ic_mail_24">
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/black" />
+                android:textColor="@color/primary_text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password TextInputLayout -->
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="Password"
-            android:textColorHint="@color/gray"
-            app:endIconTint="@color/black"
+            android:textColorHint="@color/secondary_text"
+            app:endIconTint="@color/primary_button_background"
             app:passwordToggleEnabled="true"
             app:startIconContentDescription="Password"
             app:startIconDrawable="@drawable/ic_password_24">
@@ -81,20 +81,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/black" />
+                android:textColor="@color/primary_text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Forgot Password TextView -->
         <TextView
             android:id="@+id/textViewForgotPassword"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Forgot your password?"
-            android:textColor="@color/blue"
+            android:textColor="@color/secondary_text"
             android:textSize="16sp" />
 
         <!-- LoginActivity Button -->
@@ -103,10 +103,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/primary_button_background"
             android:text="Log in"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/button_text"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -119,7 +119,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="New user? Register now"
-            android:textColor="@color/blue"
+            android:textColor="@color/secondary_text"
             android:textSize="16sp" />
 
     </LinearLayout>

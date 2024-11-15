@@ -5,7 +5,7 @@
     android:padding="12dp"
     android:background="@color/background_color"
     android:layout_margin="8dp"
-    android:backgroundTint="@color/white"
+    android:backgroundTint="@color/background_color"
     android:elevation="2dp">
 
     <!-- Title -->
@@ -21,7 +21,7 @@
             android:text="Title:"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/darkest_gray"
+            android:textColor="@color/primary_text"
             android:layout_marginEnd="8dp" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/primary_text" />
     </LinearLayout>
 
     <!-- Description -->
@@ -46,7 +46,7 @@
             android:text="Description:"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/darkest_gray"
+            android:textColor="@color/primary_text"
             android:layout_marginEnd="8dp" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/primary_text" />
     </LinearLayout>
 
     <!-- Row -->
@@ -78,7 +78,7 @@
                 android:text="Date:"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:layout_marginEnd="8dp" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/primary_text" />
         </LinearLayout>
 
         <!-- Urgency -->
@@ -102,7 +102,7 @@
                 android:text="Urgency:"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:layout_marginEnd="8dp" />
 
             <TextView
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

@@ -9,7 +9,7 @@
         <item name="colorSurface">@color/my_light_surface</item>
         <item name="colorBackground">@color/my_light_background</item>
         -->
-        <item name="colorPrimary">#00b4d8</item>
+        <item name="colorPrimary">#023E8A</item>
 
 
 

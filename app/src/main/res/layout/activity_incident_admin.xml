@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@color/background_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/gray">
+            android:background="@color/toolbar_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
                     android:text="@string/app_name"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/toolbar_text"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -63,7 +63,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Title"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Description"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Date"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
             <TextView
@@ -121,7 +121,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Location"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Type"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -150,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
             <TextView
@@ -160,7 +160,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="Urgency"
-                android:textColor="@color/black"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -169,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/darkest_gray"
+                android:textColor="@color/primary_text"
                 android:textSize="20sp" />
 
         </GridLayout>
@@ -189,10 +189,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/primary_button_background"
                 android:onClick="goBack"
                 android:text="Back"
-                android:textColor="@color/white" />
+                android:textColor="@color/button_text" />
 
             <Button
                 android:id="@+id/buttonDelete"
@@ -200,10 +200,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/primary_button_background"
                 android:onClick="deleteItem"
                 android:text="Mark as Done"
-                android:textColor="@color/white" />
+                android:textColor="@color/button_text" />
 
         </LinearLayout>
 
