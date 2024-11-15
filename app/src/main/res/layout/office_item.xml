@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="10dp"
-    card_view:cardElevation="10dp"
-    android:layout_margin="3dp"
-    android:backgroundTint="@color/background_color"
-    >
-    <LinearLayout
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@color/card_background"
+    android:layout_margin="8dp"
+    android:elevation="2dp">
+
+    <TextView
+        android:id="@+id/titleOffice"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:backgroundTint="@color/background_color">
+        android:singleLine="false"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:text="Placeholder for title"
+        android:textColor="@color/card_text"/>
 
-        <TextView
-            android:id="@+id/titleOffice"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:text="Placeholder for title"
-            android:textColor="@color/primary_text"/>
+    <TextView
+        android:id="@+id/addressOffice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:text="Placeholder for address"
+        android:textColor="@color/card_subtext"/>
 
-        <TextView
-            android:id="@+id/addressOffice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:text="Placeholder for address"
-            android:textColor="@color/primary_text"/>
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>
