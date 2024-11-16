@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">SUERTE ES</string>
-    <string name="slogan">Suerte es Tener un Barrio\nen Buen Estado</string>
+    <string name="app_name">SUERTE</string>
+    <string name="slogan">SUERTE es Tener un Barrio\nen Buen Estado</string>
     <string name="toolbar_icon_desc">The app\'s logo, a hexagon with Suerte written inside it.</string>
     <string name="change_mode">Button to change between dark and light mode.</string>
     <string name="buttom_mode_text">DARK MODE</string>

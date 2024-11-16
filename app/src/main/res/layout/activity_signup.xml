@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="10dp"
-            android:text="Please sign up to start using SUERTE ES"
+            android:text="Please sign up to start using SUERTE"
             android:textColor="@color/secondary_text"
             android:textSize="17sp" />
 

@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Welcome to SUERTE ES"
+            android:text="Welcome to SUERTE"
             android:textAlignment="center"
             android:textColor="@color/primary_text"
             android:textSize="24sp"
