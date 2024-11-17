@@ -1,10 +1,12 @@
 package dte.masteriot.mdp.suertees;
 
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +23,23 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get the UiModeManager system service
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(this.UI_MODE_SERVICE);
+
+        // Check the system's night mode setting
+        int currentNightMode = uiModeManager.getNightMode();
+
+        // Set the app's default night mode based on the system's night mode
+        if (currentNightMode == UiModeManager.MODE_NIGHT_YES) {
+            // System is in dark mode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            // System is in light mode or undefined (if undefined, default to light mode)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // Apply the night mode setting immediately
+        getDelegate().applyDayNight();
         setContentView(R.layout.activity_splash);
 
         // Initialize FirebaseAuth instance
