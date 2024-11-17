@@ -1,11 +1,13 @@
 package dte.masteriot.mdp.suertees.IncidentLists;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,13 +34,15 @@ public class ViewListsActivity extends AppCompatActivity {
     private CollectionReference userIncidentsRef; // Reference to user's incidents
     private ListenerRegistration listenerRegistration;
     private LightSensorManager lightSensorManager;
+    private Button modeButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_lists);
+
+        modeButton = findViewById(R.id.button_mode);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,6 +76,22 @@ public class ViewListsActivity extends AppCompatActivity {
     public void goBack(View view) {
         finish();
     }
+
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        getDelegate().applyDayNight();
+    }
+
 
     private void fetchIncidents() {
         FirebaseAuth auth = FirebaseAuth.getInstance(); // Get the FirebaseAuth instance

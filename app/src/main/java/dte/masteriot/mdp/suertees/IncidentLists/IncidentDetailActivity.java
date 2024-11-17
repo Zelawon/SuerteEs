@@ -3,12 +3,14 @@ package dte.masteriot.mdp.suertees.IncidentLists;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,6 +74,7 @@ public class IncidentDetailActivity extends AppCompatActivity {
                                 updateIncidentViews(incident);
                                 // Show delete button if userId matches
                                 findViewById(R.id.buttonDelete).setVisibility(View.VISIBLE);
+                                findViewById(R.id.buffer).setVisibility(View.GONE);
                             }
                         } else {
                             // If the Incident does not belong to the user
@@ -130,6 +133,21 @@ public class IncidentDetailActivity extends AppCompatActivity {
 
     public void goBack(View v) {
         finish();
+    }
+
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        getDelegate().applyDayNight();
     }
 
     public void deleteItem(View v) {

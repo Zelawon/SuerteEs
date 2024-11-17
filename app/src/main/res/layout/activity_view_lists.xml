@@ -1,21 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    tools:context=".IncidentLists.ViewListsActivity">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
         android:background="@color/toolbar_background">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/toolbar_background"
             android:gravity="start"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp">
 
             <ImageView
                 android:id="@+id/toolbar_icon"
@@ -30,10 +34,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:text="@string/app_name"
                 android:textColor="@color/toolbar_text"
                 android:textSize="20sp" />
+
         </LinearLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
     <!-- RecyclerView -->
@@ -57,23 +64,18 @@
         android:weightSum="3">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:enabled="false" />
-
-        <Button
             android:id="@+id/buttonBack"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="Back"
-            android:drawableLeft="@drawable/ic_back_24"
+            android:textColor="@color/button_text"
             android:onClick="goBack"
-            android:text="Back"
-            android:textColor="@color/button_text" />
+            android:text="BACK"
+            android:textSize="12dp"
+
+            android:drawableLeft="@drawable/ic_back_24" />
 
         <Button
             android:layout_width="0dp"
@@ -81,6 +83,18 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:enabled="false" />
+
+        <Button
+            android:id="@+id/button_mode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/change_mode"
+            android:onClick="changeTheme"
+            android:text="@string/buttom_mode_text"
+            android:textSize="12dp"
+            android:textColor="@color/button_text" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -67,15 +67,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- <EditText
-                android:id="@+id/editTextTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Click to Type"
-                android:textColor="@color/primary_text" /> -->
-
-<!-- delete from here -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutTitle"
                 android:layout_width="match_parent"
@@ -93,9 +84,7 @@
                     android:textColor="@color/primary_text"
                     android:textColorHint="@color/secondary_text" />
             </com.google.android.material.textfield.TextInputLayout>
-<!-- to here if you dont like the new edit text -->
 
-            <!-- Description field -->
             <TextView
                 android:id="@+id/textViewDesc"
                 android:layout_width="wrap_content"
@@ -106,15 +95,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- <EditText
-                android:id="@+id/editTextDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Click to Type"
-                android:textColor="@color/primary_text" /> -->
-
-<!-- delete from here -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutDesc"
                 android:layout_width="match_parent"
@@ -257,11 +237,17 @@
         android:weightSum="3">
 
         <Button
+            android:id="@+id/buttonCancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:enabled="false" />
+            android:contentDescription="Back"
+            android:textColor="@color/button_text"
+            android:onClick="cancel"
+            android:text="CANCEL"
+            android:textSize="12dp"
+            android:drawableLeft="@drawable/ic_back_24" />
 
         <Button
             android:id="@+id/buttonSubmit"
@@ -271,18 +257,20 @@
             android:background="?attr/selectableItemBackground"
             android:contentDescription="submit"
             android:onClick="submit"
-            android:text="Submit"
+            android:text="SUBMIT"
+            android:textSize="12dp"
             android:textColor="@color/button_text" />
 
         <Button
-            android:id="@+id/buttonCancel"
+            android:id="@+id/button_mode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Cancel"
-            android:onClick="cancel"
-            android:text="Cancel"
+            android:contentDescription="@string/change_mode"
+            android:onClick="changeTheme"
+            android:text="@string/buttom_mode_text"
+            android:textSize="12dp"
             android:textColor="@color/button_text" />
 
     </LinearLayout>

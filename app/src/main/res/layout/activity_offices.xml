@@ -8,30 +8,42 @@
     android:orientation="vertical"
     tools:context=".MunicipalOffices.OfficesActivity">
 
-    <!-- Toolbar Section -->
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/toolbar_background"
-        android:orientation="horizontal">
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/toolbar_background">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:src="@drawable/suerte_sin_bg" />
-
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/toolbar_text"
-            android:textSize="25sp" />
-    </LinearLayout>
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/toolbar_icon_desc"
+                android:src="@drawable/suerte_sin_bg" />
+
+            <TextView
+                android:id="@+id/placeholder_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textColor="@color/toolbar_text"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- ProgressBar Section -->
     <ProgressBar
@@ -65,23 +77,17 @@
         android:weightSum="3">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:enabled="false" />
-
-        <Button
             android:id="@+id/buttonBack"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="Back"
-            android:drawableLeft="@drawable/ic_back_24"
+            android:textColor="@color/button_text"
             android:onClick="goBack"
-            android:text="Back"
-            android:textColor="@color/button_text" />
+            android:text="BACK"
+            android:textSize="12dp"
+            android:drawableLeft="@drawable/ic_back_24" />
 
         <Button
             android:layout_width="0dp"
@@ -89,6 +95,18 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:enabled="false" />
+
+        <Button
+            android:id="@+id/button_mode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/change_mode"
+            android:onClick="changeTheme"
+            android:text="@string/buttom_mode_text"
+            android:textSize="12dp"
+            android:textColor="@color/button_text" />
     </LinearLayout>
 
 </LinearLayout>

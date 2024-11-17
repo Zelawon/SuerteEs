@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +37,7 @@ public class IncidentAdminActivity extends AppCompatActivity {
     private TextView textViewActualLocation;
     private TextView textViewActualType;
     private TextView textViewActualUrgency;
+    private Button modeButton;
     private Incident inci;
     private boolean isConnected = false;  // Track connection status
 
@@ -50,6 +53,7 @@ public class IncidentAdminActivity extends AppCompatActivity {
         textViewActualLocation = findViewById(R.id.textViewActualLocation);
         textViewActualType = findViewById(R.id.textViewActualType);
         textViewActualUrgency = findViewById(R.id.textViewActualUrgency);
+        modeButton = findViewById(R.id.button_mode);
 
         firestore = FirebaseFirestore.getInstance();
         createMQTTclient();
@@ -136,6 +140,21 @@ public class IncidentAdminActivity extends AppCompatActivity {
 
     public void goBack(View v) {
         finish();
+    }
+
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        getDelegate().applyDayNight();
     }
 
     public void deleteItem(View v) {

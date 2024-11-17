@@ -69,13 +69,6 @@
         android:weightSum="3">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:enabled="false" />
-
-        <Button
             android:id="@+id/log_out_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -93,6 +86,18 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:enabled="false" />
+
+        <Button
+            android:id="@+id/button_mode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/change_mode"
+            android:onClick="changeTheme"
+            android:text="@string/buttom_mode_text"
+            android:textSize="12dp"
+            android:textColor="@color/button_text" />
     </LinearLayout>
 
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
 
     private ExecutorService es;
     private Button btBack;
+    private Button modeButton;
     private ProgressBar progressBar;
 
     private DatasetOffices dataset;
@@ -81,6 +83,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         btBack = findViewById(R.id.buttonBack);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
+        modeButton = findViewById(R.id.button_mode);
 
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String cachedData = prefs.getString(PREFS_KEY_DATA, null);
@@ -144,6 +147,21 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
     // Listener for the button:
     public void goBack(View view) {
         finish();
+    }
+
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        getDelegate().applyDayNight();
     }
 
     private void sortItemsByDistance() {

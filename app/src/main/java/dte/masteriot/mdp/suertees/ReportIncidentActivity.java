@@ -9,6 +9,7 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -46,6 +48,8 @@ public class ReportIncidentActivity extends AppCompatActivity {
     EditText title_view, desc_view;
     Button bt_cancel, bt_submit;
     Spinner type_view;
+    Button modeButton;
+
     // Data variables
     String title, desc, type, date;
     Location location;
@@ -73,6 +77,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
         date_view = findViewById(R.id.textViewCurrentDate);
         location_view = findViewById(R.id.textViewCurrentLocation);
         urgencyGroup = findViewById(R.id.urgencyGroup);
+        modeButton = findViewById(R.id.button_mode);
 
         // Initialize Firestore
         firestore = FirebaseFirestore.getInstance();
@@ -232,6 +237,20 @@ public class ReportIncidentActivity extends AppCompatActivity {
         }
     }
 
+    public void changeTheme(View v) {
+        // Check the current mode and toggle it
+        int currentNightMode = AppCompatDelegate.getDefaultNightMode();
+
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            Log.d("button", "Switching to light mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            Log.d("button", "Switching to dark mode");
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        getDelegate().applyDayNight();
+    }
 
     private boolean validateFields(String title, String date, String location, String type, String urgency) {
         return !title.isEmpty() && !date.isEmpty() && !location.isEmpty() && !type.isEmpty() && !urgency.isEmpty();

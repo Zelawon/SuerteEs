@@ -33,7 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the item view and create the ViewHolder
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.office_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_office, parent, false);
         return new MyViewHolder(v);
     }
 
