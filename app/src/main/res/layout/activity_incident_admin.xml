@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_color"
-    tools:context=".viewlists.IncidentDetailActivity">
+    tools:context=".IncidentLists.IncidentDetailActivity">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -25,7 +25,6 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:contentDescription="@string/toolbar_icon_desc"
-                android:onClick="onMenuIconClick"
                 android:src="@drawable/suerte_sin_bg" />
 
             <TextView
@@ -169,24 +168,12 @@
     <!-- Bottom Buttons Bar -->
     <LinearLayout
         android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/background_color"
-        android:padding="10dp">
-
-        <Button
-            android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/primary_button_background"
-            android:onClick="goBack"
-            android:text="Back"
-            android:textColor="@color/button_text" />
-
+        android:layout_gravity="center"
+        android:background="@color/background_color">
         <Button
             android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"
@@ -197,7 +184,44 @@
             android:onClick="deleteItem"
             android:text="Mark as Done"
             android:textColor="@color/button_text" />
+    </LinearLayout>
 
+    <!-- Custom Bottom Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/toolbar_background"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="3">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Back"
+            android:textColor="@color/button_text"
+            android:onClick="goBack"
+            android:text="Back"
+            android:drawableLeft="@drawable/ic_back_24" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false" />
     </LinearLayout>
 
 </LinearLayout>

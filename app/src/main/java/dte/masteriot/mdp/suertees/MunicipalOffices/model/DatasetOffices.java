@@ -1,34 +1,16 @@
-package dte.masteriot.mdp.suertees.offices.model;
+package dte.masteriot.mdp.suertees.MunicipalOffices.model;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import dte.masteriot.mdp.suertees.ReportIncidentActivity;
-import dte.masteriot.mdp.suertees.offices.OfficesActivity;
+import java.util.Collections;
+import java.util.List;
 
 public class DatasetOffices {
 

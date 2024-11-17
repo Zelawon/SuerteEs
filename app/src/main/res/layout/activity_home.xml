@@ -11,8 +11,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/toolbar_background"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/toolbar_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +26,6 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:contentDescription="@string/toolbar_icon_desc"
-                android:onClick="onMenuIconClick"
                 android:src="@drawable/suerte_sin_bg" />
 
             <TextView
@@ -48,8 +47,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/toolbar"
         android:layout_above="@id/bottomBar"
+        android:layout_below="@id/toolbar"
         android:background="@color/background_color">
 
         <LinearLayout
@@ -65,9 +64,9 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
                 android:onClick="reportIssue"
-                android:text="Report an Issue" />
+                android:text="Report an Issue"
+                android:textColor="@color/button_text" />
 
             <Button
                 android:id="@+id/buttonSeeMine"
@@ -76,9 +75,9 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
                 android:onClick="seeMine"
-                android:text="My Reports" />
+                android:text="My Reports"
+                android:textColor="@color/button_text" />
 
             <Button
                 android:id="@+id/buttonSeeAll"
@@ -87,9 +86,9 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
                 android:onClick="seeAll"
-                android:text="All Reports" />
+                android:text="All Reports"
+                android:textColor="@color/button_text" />
 
             <Button
                 android:id="@+id/buttonOffices"
@@ -98,9 +97,9 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
-                android:textColor="@color/button_text"
                 android:onClick="seeOffices"
-                android:text="See Offices" />
+                android:text="See Offices"
+                android:textColor="@color/button_text" />
 
         </LinearLayout>
 
@@ -111,10 +110,10 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_above="@id/bottom_bar"
         android:background="@color/background_color"
-        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <Button
@@ -122,11 +121,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/primary_button_background"
-            android:textColor="@color/button_text"
-            android:text="@string/buttom_mode_text"
             android:contentDescription="@string/change_mode"
-            android:onClick="changeTheme" />
+            android:onClick="changeTheme"
+            android:text="@string/buttom_mode_text"
+            android:textColor="@color/button_text" />
+    </LinearLayout>
+    <!-- Custom Bottom Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/toolbar_background"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="3">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/log_out_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Log out"
+            android:drawableLeft="@drawable/ic_logout_24"
+            android:text="LOG OUT"
+            android:textColor="@color/button_text"
+            android:textSize="12dp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -49,12 +49,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("androidx.recyclerview:recyclerview:1.2.1") // recycler view
-    implementation(platform("com.google.firebase:firebase-bom:33.4.0")) // Latest BOM version
-    implementation("com.google.android.gms:play-services-location:21.3.0") // For GPS
-    implementation("com.google.firebase:firebase-firestore:24.0.2") // Cloud Firestore
-    implementation("com.google.android.material:material:1.9.0") // Material Design Dependency
+    implementation("androidx.activity:activity:1.7.0")
 
-    // MQTT Client dependencies
+    // RecyclerView for displaying lists and grids of items
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    // Firebase BOM to manage Firebase library versions automatically
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+    // Google Play Services for GPS and location-based features
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    // Firebase Firestore for cloud-based database storage
+    implementation("com.google.firebase:firebase-firestore:24.0.2")
+    // Material Design Components for UI elements and styling
+    implementation("com.google.android.material:material:1.9.0")
+    // MQTT Client for real-time, lightweight communication with HiveMQ
     implementation("com.hivemq:hivemq-mqtt-client:1.3.3")
+
 }

@@ -1,7 +1,9 @@
 package dte.masteriot.mdp.suertees;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,33 +12,31 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
-import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
-import dte.masteriot.mdp.suertees.offices.OfficesActivity;
-import dte.masteriot.mdp.suertees.viewlists.ViewListsActivity;
+import dte.masteriot.mdp.suertees.AccountManagment.LoginActivity;
+import dte.masteriot.mdp.suertees.IncidentLists.ViewListsActivity;
+import dte.masteriot.mdp.suertees.MunicipalOffices.OfficesActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static final String TOPIC = "incidents";
     private LightSensorManager lightSensorManager;
     private Button modeButton;
-
-    private static final String TOPIC = "incidents";
     private Mqtt3AsyncClient mqttClient;
 
     @Override
@@ -44,6 +44,42 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         modeButton = findViewById(R.id.button_mode);
+
+        Button logoutButton = findViewById(R.id.log_out_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the logout method when the button is clicked
+                logout();
+            }
+        });
+
+        // Register the back press callback
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Show the confirmation dialog here
+                new AlertDialog.Builder(HomeActivity.this)
+                        .setMessage("Are you sure you want to log out?")
+                        .setCancelable(false)  // Prevent closing dialog by tapping outside
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Sign out from Firebase
+                                FirebaseAuth.getInstance().signOut();
+                                // Redirect to LoginActivity
+                                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                                // Clear the activity stack and start the login activity
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                                finish(); // Finish the current activity
+                            }
+                        })
+                        .setNegativeButton("No", null) // Dismiss the dialog on "No"
+                        .show();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         // Create and connect the MQTT client
         createMQTTClient();
@@ -111,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
@@ -206,33 +242,6 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    // Method to handle toolbar icon click
-    public void onMenuIconClick(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_logout, popupMenu.getMenu());
-
-        // Set a listener for menu item clicks
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                MenuAction action = MenuAction.fromId(item.getItemId());
-                if (action != null) {
-                    switch (action) {
-                        case LOGOUT:
-                            logout();
-                            return true;
-                        // Add more cases for other actions as needed
-                        default:
-                            return false;
-                    }
-                }
-                return false; // Return false if no action was found
-            }
-        });
-
-        popupMenu.show(); // Show the popup menu
-    }
-
     public void changeTheme(View v) {
         // Check the current mode and toggle it
         int currentNightMode = AppCompatDelegate.getDefaultNightMode();
@@ -248,17 +257,27 @@ public class HomeActivity extends AppCompatActivity {
         getDelegate().applyDayNight();
     }
 
-
-
-    private void logout() {
-        // Sign out from Firebase
-        FirebaseAuth.getInstance().signOut();
-        // Redirect to a login activity
-        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-        // Clear the activity stack and start the login activity
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
-        finish();
+    public void logout() {
+        // Create a confirmation dialog
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to log out?")
+                .setCancelable(false)  // Prevent closing dialog by tapping outside
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Sign out from Firebase
+                        FirebaseAuth.getInstance().signOut();
+                        // Redirect to a login activity
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        // Clear the activity stack and start the login activity
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Toast.makeText(HomeActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null) // Dismiss the dialog on "No"
+                .show();
     }
+
+
 }

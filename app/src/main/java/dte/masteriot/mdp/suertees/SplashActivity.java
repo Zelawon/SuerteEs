@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import dte.masteriot.mdp.suertees.accountmanagment.LoginActivity;
+import dte.masteriot.mdp.suertees.AccountManagment.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

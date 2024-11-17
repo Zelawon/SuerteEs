@@ -1,4 +1,4 @@
-package dte.masteriot.mdp.suertees.objects;
+package dte.masteriot.mdp.suertees.Objects;
 
 public class Incident {
     private String id; // Field to hold the document ID

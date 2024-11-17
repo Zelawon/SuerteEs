@@ -18,44 +18,45 @@
         android:theme="@style/Theme_SuerteEs_Light"
         tools:targetApi="31">
         <activity
-            android:name=".Admin.IncidentAdminActivity"
+            android:name=".AdminActions.IncidentAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.AdminActivity"
+            android:name=".AdminActions.AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".Subscriber.SubscriberActivity"
+            android:name=".IncidentLists.ViewListsActivity"
             android:exported="false" />
         <activity
-            android:name=".viewlists.ViewListsActivity"
+            android:name=".MunicipalOffices.OfficesActivity"
             android:exported="false" />
         <activity
-            android:name=".offices.OfficesActivity"
+            android:name=".MunicipalOffices.LoadURLContents"
             android:exported="false" />
         <activity
-            android:name=".offices.LoadURLContents"
-            android:exported="false" />
-        <activity
-            android:name=".viewlists.IncidentDetailActivity"
+            android:name=".IncidentLists.IncidentDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ReportIncidentActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".AccountManagment.ForgotPasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="false" />
         <activity
-            android:name=".accountmanagment.ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".accountmanagment.SignupActivity"
+            android:name=".AccountManagment.SignupActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".accountmanagment.LoginActivity"
+            android:name=".AccountManagment.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

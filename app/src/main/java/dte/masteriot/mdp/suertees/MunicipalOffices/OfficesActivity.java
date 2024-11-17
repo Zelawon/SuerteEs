@@ -1,7 +1,6 @@
-package dte.masteriot.mdp.suertees.offices;
+package dte.masteriot.mdp.suertees.MunicipalOffices;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -30,11 +29,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import dte.masteriot.mdp.suertees.HomeActivity;
 import dte.masteriot.mdp.suertees.LightSensorManager;
+import dte.masteriot.mdp.suertees.MunicipalOffices.adapter.MyAdapter;
+import dte.masteriot.mdp.suertees.MunicipalOffices.model.DatasetOffices;
 import dte.masteriot.mdp.suertees.R;
-import dte.masteriot.mdp.suertees.offices.model.DatasetOffices;
-import dte.masteriot.mdp.suertees.offices.adapter.MyAdapter;
 
 
 public class OfficesActivity extends AppCompatActivity implements OnDataLoadedListener {

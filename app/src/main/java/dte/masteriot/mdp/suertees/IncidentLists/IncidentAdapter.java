@@ -1,4 +1,4 @@
-package dte.masteriot.mdp.suertees.viewlists;
+package dte.masteriot.mdp.suertees.IncidentLists;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import dte.masteriot.mdp.suertees.Admin.IncidentAdminActivity;
+import dte.masteriot.mdp.suertees.AdminActions.IncidentAdminActivity;
+import dte.masteriot.mdp.suertees.Objects.Incident;
 import dte.masteriot.mdp.suertees.R;
-import dte.masteriot.mdp.suertees.objects.Incident;
 
 public class IncidentAdapter extends RecyclerView.Adapter<IncidentAdapter.IncidentViewHolder> {
     private List<Incident> incidentList;

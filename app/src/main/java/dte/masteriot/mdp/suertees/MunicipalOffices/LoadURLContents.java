@@ -1,4 +1,4 @@
-package dte.masteriot.mdp.suertees.offices;
+package dte.masteriot.mdp.suertees.MunicipalOffices;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
