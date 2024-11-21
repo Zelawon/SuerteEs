@@ -11,7 +11,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.MutableLiveData;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LightSensorManager {
 
@@ -20,9 +21,8 @@ public class LightSensorManager {
     private final SensorManager sensorManager;
     private final Sensor lightSensor;
     private SensorEventListener lightSensorListener;
-    private final MutableLiveData<Boolean> isDarkModeLiveData = new MutableLiveData<>();
     private static final float DARK_THRESHOLD = 30.0f; // Lux threshold for dark mode
-    private static final long DARK_MODE_DELAY = 3000; // seconds delay
+    private static final long DARK_MODE_DELAY = 5000; // seconds delay
     private final Context context;
     private boolean isListening = false;
 
@@ -55,44 +55,48 @@ public class LightSensorManager {
             return;
         }
 
+        long DARK_MODE_DELAY_1 = 5000; // seconds delay for the first notification
+        long DARK_MODE_DELAY_2 = 20000; // seconds delay for the second notification
+        AtomicBoolean firstNotificationSent = new AtomicBoolean(false); // Tracks if the first notification is sent
+        AtomicBoolean secondNotificationSent = new AtomicBoolean(false); // Tracks if the second notification is sent
+
         lightSensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 float lux = event.values[0];
                 Log.d(TAG, "Light sensor value (lux): " + lux);
 
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO){
-                    isDarkMode = false;
-                }
+                isDarkMode = AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO;
 
-                // Determine if dark mode should be enabled
-                if (lux < DARK_THRESHOLD) {
-                    if (!isDarkMode) {
-                        // Schedule dark mode notification
-                        if (darkModeRunnable == null) {
-                            darkModeRunnable = () -> {
-                                isDarkMode = true;
-                                isDarkModeLiveData.setValue(true);
-                                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                                    Toast.makeText(context, "Ambient light is low. Switching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
-                                }
-                                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                                Log.d(TAG, "Dark mode activated.");
-                            };
-                        }
-                        handler.postDelayed(darkModeRunnable, DARK_MODE_DELAY);
+                if (lux < DARK_THRESHOLD && !isDarkMode) {
+                    // Entering a dark environment
+                    if (!firstNotificationSent.get()) {
+                        // Schedule first notification
+                        handler.postDelayed(() -> {
+                            if (lux < DARK_THRESHOLD) { // Check if still in dark
+                                Toast.makeText(context, "Ambient light is low. Switching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
+                                Log.d(TAG, "First dark mode notification sent.");
+                                firstNotificationSent.set(true);
+                            }
+                        }, DARK_MODE_DELAY_1);
+                    }
+
+                    if (firstNotificationSent.get() && !secondNotificationSent.get()) {
+                        // Schedule second notification
+                        handler.postDelayed(() -> {
+                            if (lux < DARK_THRESHOLD) { // Check if still in dark
+                                Toast.makeText(context, "It's still dark. Consider switching to Dark Mode.", Toast.LENGTH_LONG).show();
+                                Log.d(TAG, "Second dark mode notification sent.");
+                                secondNotificationSent.set(true);
+                            }
+                        }, DARK_MODE_DELAY_2);
                     }
                 } else {
-                    // Cancel dark mode notification if light goes above threshold
-                    if (darkModeRunnable != null) {
-                        handler.removeCallbacks(darkModeRunnable);
-                        darkModeRunnable = null;
-                    }
-
-                    if (isDarkMode) {
-                        isDarkMode = false;
-                        isDarkModeLiveData.setValue(false);
-                        Log.d(TAG, "Dark mode deactivated.");
+                    // Reset notifications when light environment is detected
+                    if (lux >= DARK_THRESHOLD) {
+                        firstNotificationSent.set(false);
+                        secondNotificationSent.set(false);
+                        Log.d(TAG, "Light environment detected. Notifications reset.");
                     }
                 }
             }
@@ -107,6 +111,7 @@ public class LightSensorManager {
         isListening = true;
         Log.d(TAG, "Light sensor started listening.");
     }
+
 
     public void stopListening() {
         if (isListening && lightSensorListener != null) {
