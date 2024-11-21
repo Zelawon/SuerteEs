@@ -11,9 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class LightSensorManager {
 
     private static final String TAG = "LightSensorManager";
@@ -25,10 +22,14 @@ public class LightSensorManager {
     private static final long DARK_MODE_DELAY = 5000; // seconds delay
     private final Context context;
     private boolean isListening = false;
-
     private boolean isDarkMode = false; // Tracks current dark mode state
+    private int lastMode; // Track the last known mode
+
+    long DARK_MODE_DELAY_1 = 5000; // 5 seconds delay for the first notification
+
     private Handler handler; // Handler to manage delayed notifications
     private Runnable darkModeRunnable; // Runnable to notify user
+    private boolean notificationSent = false; // Tracks if notification is sent
 
     private LightSensorManager(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -55,55 +56,35 @@ public class LightSensorManager {
             return;
         }
 
-        long DARK_MODE_DELAY_1 = 5000; // seconds delay for the first notification
-        long DARK_MODE_DELAY_2 = 20000; // seconds delay for the second notification
-        AtomicBoolean firstNotificationSent = new AtomicBoolean(false); // Tracks if the first notification is sent
-        AtomicBoolean secondNotificationSent = new AtomicBoolean(false); // Tracks if the second notification is sent
+        lastMode = AppCompatDelegate.getDefaultNightMode();
 
         lightSensorListener = new SensorEventListener() {
+            private float currentLux = 0;
+
             @Override
             public void onSensorChanged(SensorEvent event) {
-                float lux = event.values[0];
-                Log.d(TAG, "Light sensor value (lux): " + lux);
+                checkForModeChange(); // Check if the user toggled dark mode
+
+                currentLux = event.values[0];
+                Log.d(TAG, "Light sensor value (lux): " + currentLux);
 
                 isDarkMode = AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO;
 
-                if (lux < DARK_THRESHOLD && !isDarkMode) {
-                    // Entering a dark environment
-                    if (!firstNotificationSent.get()) {
-                        // Schedule first notification
-                        handler.postDelayed(() -> {
-                            if (lux < DARK_THRESHOLD) { // Check if still in dark
-                                Toast.makeText(context, "Ambient light is low. Switching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "First dark mode notification sent.");
-                                firstNotificationSent.set(true);
-                            }
-                        }, DARK_MODE_DELAY_1);
-                    }
-
-                    if (firstNotificationSent.get() && !secondNotificationSent.get()) {
-                        // Schedule second notification
-                        handler.postDelayed(() -> {
-                            if (lux < DARK_THRESHOLD) { // Check if still in dark
-                                Toast.makeText(context, "It's still dark. Consider switching to Dark Mode.", Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "Second dark mode notification sent.");
-                                secondNotificationSent.set(true);
-                            }
-                        }, DARK_MODE_DELAY_2);
+                if (currentLux < DARK_THRESHOLD && !isDarkMode) {
+                    // Only show the toast if it hasn't been shown already
+                    if (!notificationSent) {
+                        scheduleNotification(DARK_MODE_DELAY_1, currentLux);
                     }
                 } else {
-                    // Reset notifications when light environment is detected
-                    if (lux >= DARK_THRESHOLD) {
-                        firstNotificationSent.set(false);
-                        secondNotificationSent.set(false);
-                        Log.d(TAG, "Light environment detected. Notifications reset.");
+                    if (currentLux >= DARK_THRESHOLD) {
+                        cancelAllNotifications();
                     }
                 }
             }
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                // No implementation needed for this example
+                // No implementation needed
             }
         };
 
@@ -112,6 +93,51 @@ public class LightSensorManager {
         Log.d(TAG, "Light sensor started listening.");
     }
 
+    private void scheduleNotification(long delay, float luxAtScheduling) {
+        if (darkModeRunnable != null) {
+            Log.d(TAG, "Notification already scheduled. Skipping...");
+            return;
+        }
+
+        Log.d(TAG, "Scheduling dark mode notification...");
+        darkModeRunnable = () -> {
+            if (luxAtScheduling < DARK_THRESHOLD) { // Use captured value
+                // Show the toast message
+                Toast.makeText(context, "Ambient light is low. Switching to Dark Mode may improve visibility.", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Dark mode notification sent.");
+                notificationSent = true; // Mark that a notification has been sent
+            }
+            darkModeRunnable = null; // Reset after execution
+        };
+        handler.postDelayed(darkModeRunnable, delay);
+    }
+
+    private void cancelAllNotifications() {
+        Log.d(TAG, "Canceling all dark mode notifications...");
+        if (darkModeRunnable != null) {
+            handler.removeCallbacks(darkModeRunnable);
+            darkModeRunnable = null;
+        }
+        notificationSent = false; // Reset the notification flag
+    }
+
+    private void checkForModeChange() {
+        int currentMode = AppCompatDelegate.getDefaultNightMode();
+        if (currentMode != lastMode) {
+            Log.d(TAG, "Detected manual mode change. Resetting notification flag.");
+            resetNotificationFlag();
+            lastMode = currentMode; // Update the last known mode
+        }
+    }
+
+    private void resetNotificationFlag() {
+        notificationSent = false;
+        if (darkModeRunnable != null) {
+            handler.removeCallbacks(darkModeRunnable);
+            darkModeRunnable = null;
+        }
+        Log.d(TAG, "Notification flag reset.");
+    }
 
     public void stopListening() {
         if (isListening && lightSensorListener != null) {
@@ -120,12 +146,10 @@ public class LightSensorManager {
             isListening = false;
 
             // Cancel any pending notifications
-            if (darkModeRunnable != null) {
-                handler.removeCallbacks(darkModeRunnable);
-                darkModeRunnable = null;
-            }
+            cancelAllNotifications();
 
             Log.d(TAG, "Light sensor stopped listening and listener unregistered.");
         }
     }
 }
+
