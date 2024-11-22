@@ -26,6 +26,7 @@ import java.util.List;
 
 import dte.masteriot.mdp.suertees.AccountManagment.LoginActivity;
 import dte.masteriot.mdp.suertees.IncidentLists.IncidentAdapter;
+import dte.masteriot.mdp.suertees.LightSensorManager;
 import dte.masteriot.mdp.suertees.Objects.Incident;
 import dte.masteriot.mdp.suertees.R;
 
@@ -38,6 +39,7 @@ public class AdminActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private CollectionReference userIncidentsRef; // Reference to user's incidents
     private ListenerRegistration listenerRegistration;
+    private LightSensorManager lightSensorManager;
 
 
     @Override
@@ -95,11 +97,20 @@ public class AdminActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    @Override
     protected void onResume() {
         super.onResume();
         // Fetch incidents again when the activity resumes
         fetchIncidents();
+
+        // Initialize the light sensor manager
+        lightSensorManager = LightSensorManager.getInstance(this);
+        lightSensorManager.startListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lightSensorManager.stopListening(); // Stop sensor updates when activity stops
     }
 
     public void changeTheme(View v) {
