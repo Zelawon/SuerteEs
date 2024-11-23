@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="@color/toolbar_background">
+        android:background="@color/toolbar_background"
+        android:contentDescription="@string/toolbar_desc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +37,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/app_name"
                 android:textColor="@color/toolbar_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:contentDescription="@string/app_name_desc" />
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -47,8 +49,8 @@
         android:layout_height="0dp"
         android:layout_above="@id/bottom_bar"
         android:layout_below="@id/toolbar"
-        android:background="@color/background_color">
-
+        android:background="@color/background_color"
+        android:contentDescription="@string/scroll_view_desc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +67,8 @@
                 android:text="Title"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/title_label_desc" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutTitle"
@@ -82,7 +85,8 @@
                     android:importantForAccessibility="yes"
                     android:inputType="textMultiLine"
                     android:textColor="@color/primary_text"
-                    android:textColorHint="@color/secondary_text" />
+                    android:textColorHint="@color/secondary_text"
+                    android:contentDescription="@string/actual_title_desc1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -93,7 +97,8 @@
                 android:text="Description"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/desc_label_desc" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutDesc"
@@ -110,9 +115,9 @@
                     android:importantForAccessibility="yes"
                     android:inputType="textMultiLine"
                     android:textColor="@color/primary_text"
-                    android:textColorHint="@color/secondary_text" />
+                    android:textColorHint="@color/secondary_text"
+                    android:contentDescription="@string/actual_desc_desc1" />
             </com.google.android.material.textfield.TextInputLayout>
-<!-- to here if you dont like the new edit text -->
 
             <!-- Date field -->
             <TextView
@@ -123,7 +128,8 @@
                 android:text="Date"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/date_label_desc" />
 
             <TextView
                 android:id="@+id/textViewCurrentDate"
@@ -131,7 +137,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/primary_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:contentDescription="@string/actual_date_desc" />
 
             <!-- Location field -->
             <TextView
@@ -142,7 +149,8 @@
                 android:text="Location"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/location_label_desc" />
 
             <TextView
                 android:id="@+id/textViewCurrentLocation"
@@ -150,7 +158,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/primary_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:contentDescription="@string/actual_location_desc" />
 
             <!-- Type field (Spinner) -->
             <TextView
@@ -161,7 +170,8 @@
                 android:text="Type"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/type_label_desc" />
 
             <Spinner
                 android:id="@+id/spinnerType"
@@ -170,7 +180,8 @@
                 android:layout_marginBottom="16dp"
                 android:spinnerMode="dropdown"
                 android:textColor="@color/primary_text"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:contentDescription="@string/actual_type_desc1" />
 
             <!-- Urgency field (RadioGroup) -->
             <TextView
@@ -181,7 +192,8 @@
                 android:text="Urgency"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:contentDescription="@string/urgency_label_desc" />
 
             <RadioGroup
                 android:id="@+id/urgencyGroup"
@@ -199,7 +211,8 @@
                     android:text="Low"
                     android:textColor="@color/primary_text"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:contentDescription="@string/low_urgency_desc" />
 
                 <RadioButton
                     android:id="@+id/radioMediumUrgency"
@@ -208,7 +221,8 @@
                     android:text="Medium"
                     android:textColor="@color/primary_text"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:contentDescription="@string/medium_urgency_desc" />
 
                 <RadioButton
                     android:id="@+id/radioHighUrgency"
@@ -217,14 +231,15 @@
                     android:text="High"
                     android:textColor="@color/primary_text"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:contentDescription="@string/high_urgency_desc" />
 
             </RadioGroup>
 
         </LinearLayout>
 
-
     </ScrollView>
+
     <!-- Custom Bottom Bar -->
     <LinearLayout
         android:id="@+id/bottom_bar"
@@ -242,12 +257,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Back"
-            android:textColor="@color/button_text"
+            android:contentDescription="@string/cancel_button_desc"
             android:onClick="cancel"
             android:text="CANCEL"
-            android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_back_24" />
+            android:textSize="14sp"/>
 
         <Button
             android:id="@+id/buttonSubmit"
@@ -255,10 +268,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="submit"
+            android:contentDescription="@string/submit_button_desc"
             android:onClick="submit"
             android:text="SUBMIT"
-            android:textSize="12dp"
+            android:textSize="14sp"
             android:textColor="@color/button_text" />
 
         <Button
@@ -267,10 +280,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="@string/change_mode"
+            android:contentDescription="@string/change_theme_button_desc"
             android:onClick="changeTheme"
             android:text="@string/buttom_mode_text"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/button_text" />
 
     </LinearLayout>

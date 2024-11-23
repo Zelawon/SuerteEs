@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="@color/toolbar_background">
+        android:background="@color/toolbar_background"
+        android:contentDescription="@string/toolbar_desc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,8 +38,8 @@
                 android:layout_weight="1"
                 android:text="@string/app_name"
                 android:textColor="@color/toolbar_text"
-                android:textSize="20sp" />
-
+                android:textSize="20sp"
+                android:contentDescription="@string/app_name_desc" />
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -49,14 +50,17 @@
         android:layout_height="0dp"
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@id/toolbar"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        android:contentDescription="@string/scroll_view_desc1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:contentDescription="@string/scroll_content_desc">
 
+            <!-- Report Issue Button -->
             <Button
                 android:id="@+id/buttonReport"
                 android:layout_width="match_parent"
@@ -65,42 +69,52 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
                 android:onClick="reportIssue"
+                android:textSize="16sp"
                 android:text="Report an Issue"
-                android:textColor="@color/button_text" />
+                android:textColor="@color/button_text"
+                android:contentDescription="@string/report_button_desc" />
 
+            <!-- My Reports Button -->
             <Button
                 android:id="@+id/buttonSeeMine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:backgroundTint="@color/primary_button_background"
                 android:onClick="seeMine"
                 android:text="My Reports"
-                android:textColor="@color/button_text" />
+                android:textColor="@color/button_text"
+                android:contentDescription="@string/my_reports_button_desc" />
 
+            <!-- All Reports Button -->
             <Button
                 android:id="@+id/buttonSeeAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:textSize="16sp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/primary_button_background"
                 android:onClick="seeAll"
                 android:text="All Reports"
-                android:textColor="@color/button_text" />
+                android:textColor="@color/button_text"
+                android:contentDescription="@string/all_reports_button_desc" />
 
+            <!-- See Offices Button -->
             <Button
                 android:id="@+id/buttonOffices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:backgroundTint="@color/primary_button_background"
                 android:onClick="seeOffices"
                 android:text="See Offices"
-                android:textColor="@color/button_text" />
-
+                android:textColor="@color/button_text"
+                android:contentDescription="@string/offices_button_desc" />
         </LinearLayout>
 
     </ScrollView>
@@ -114,37 +128,41 @@
         android:background="@color/toolbar_background"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:contentDescription="@string/bottom_bar_desc">
 
+        <!-- Log Out Button -->
         <Button
             android:id="@+id/log_out_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Log out"
-            android:drawableLeft="@drawable/ic_logout_24"
+            android:contentDescription="@string/logout_button_desc"
             android:text="LOG OUT"
             android:textColor="@color/button_text"
-            android:textSize="12dp" />
+            android:textSize="14dp" />
 
+        <!-- Disabled Button (Placeholder) -->
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:enabled="false" />
+            android:enabled="false"
+            android:contentDescription="@string/disabled_button_desc" />
 
+        <!-- Change Mode Button -->
         <Button
             android:id="@+id/button_mode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="@string/change_mode"
+            android:contentDescription="@string/change_mode_button_desc"
             android:onClick="changeTheme"
             android:text="@string/buttom_mode_text"
-            android:textSize="12dp"
+            android:textSize="14dp"
             android:textColor="@color/button_text" />
     </LinearLayout>
 

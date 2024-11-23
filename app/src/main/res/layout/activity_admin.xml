@@ -8,7 +8,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/toolbar_background">
+        android:background="@color/toolbar_background"
+        android:contentDescription="@string/toolbar_desc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +32,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/app_name"
                 android:textColor="@color/toolbar_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:contentDescription="@string/app_name_desc" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -43,7 +45,8 @@
         android:layout_above="@id/bottom_bar"
         android:layout_below="@id/toolbar"
         android:padding="10dp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:contentDescription="@string/recycler_view_desc" />
 
     <!-- No incidents found message -->
     <TextView
@@ -55,7 +58,8 @@
         android:text="No incidents found."
         android:textColor="@color/primary_text"
         android:textSize="18sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="@string/no_incidents_desc" />
 
     <!-- Custom Bottom Bar -->
     <LinearLayout
@@ -66,7 +70,8 @@
         android:background="@color/toolbar_background"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:contentDescription="@string/bottom_bar_desc">
 
         <Button
             android:id="@+id/log_out_button"
@@ -74,11 +79,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="Log out"
+            android:contentDescription="@string/log_out_desc"
             android:text="LOG OUT"
             android:textColor="@color/button_text"
-            android:textSize="12dp"
-            android:drawableLeft="@drawable/ic_logout_24" />
+            android:textSize="14sp" />
 
         <Button
             android:layout_width="0dp"
@@ -93,12 +97,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
-            android:contentDescription="@string/change_mode"
+            android:contentDescription="@string/change_mode_desc"
             android:onClick="changeTheme"
             android:text="@string/buttom_mode_text"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/button_text" />
     </LinearLayout>
-
-
 </RelativeLayout>

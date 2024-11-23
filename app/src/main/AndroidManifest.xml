@@ -41,19 +41,19 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".AccountManagment.ForgotPasswordActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".AccountManagment.SignupActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".AccountManagment.LoginActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

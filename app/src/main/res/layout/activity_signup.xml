@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:contentDescription="@string/scroll_view_desc">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,7 +12,8 @@
         android:background="@color/background_color"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:contentDescription="@string/linear_layout_desc">
 
         <!-- Logo Placeholder -->
         <ImageView
@@ -21,7 +23,8 @@
             android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/suerte_sin_bg" />
+            android:src="@drawable/suerte_sin_bg"
+            android:contentDescription="@string/logo_desc" />
 
         <!-- Welcome Message -->
         <TextView
@@ -33,7 +36,8 @@
             android:textAlignment="center"
             android:textColor="@color/primary_text"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="@string/welcome_message_desc" />
 
         <!-- Sign-up Prompt -->
         <TextView
@@ -44,7 +48,8 @@
             android:layout_marginTop="10dp"
             android:text="Please sign up to start using SUERTE"
             android:textColor="@color/secondary_text"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:contentDescription="@string/signup_prompt_desc" />
 
         <!-- Email TextInputLayout -->
         <com.google.android.material.textfield.TextInputLayout
@@ -55,14 +60,16 @@
             android:hint="Email"
             android:textColorHint="@color/secondary_text"
             app:startIconContentDescription="Email"
-            app:startIconDrawable="@drawable/ic_mail_24">
+            app:startIconDrawable="@drawable/ic_mail_24"
+            android:contentDescription="@string/email_input_desc">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/secondary_text" />
+                android:textColor="@color/secondary_text"
+                android:contentDescription="@string/actual_email_desc" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password TextInputLayout -->
@@ -76,14 +83,16 @@
             app:endIconTint="@color/primary_button_background"
             app:passwordToggleEnabled="true"
             app:startIconContentDescription="Password"
-            app:startIconDrawable="@drawable/ic_password_24">
+            app:startIconDrawable="@drawable/ic_password_24"
+            android:contentDescription="@string/password_input_desc">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:contentDescription="@string/actual_password_desc" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Confirm Password TextInputLayout -->
@@ -97,14 +106,16 @@
             app:endIconTint="@color/primary_button_background"
             app:passwordToggleEnabled="true"
             app:startIconContentDescription="Confirm Password"
-            app:startIconDrawable="@drawable/ic_password_24">
+            app:startIconDrawable="@drawable/ic_password_24"
+            android:contentDescription="@string/confirm_password_input_desc">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:contentDescription="@string/actual_confirm_password_desc" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Register Button -->
@@ -118,8 +129,8 @@
             android:textAllCaps="true"
             android:textColor="@color/button_text"
             android:textSize="16sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            android:contentDescription="@string/register_button_desc" />
 
         <!-- Log in TextView -->
         <TextView
@@ -131,7 +142,8 @@
             android:focusable="true"
             android:text="Do you already have an account? Log in!"
             android:textColor="@color/secondary_text"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:contentDescription="@string/login_text_desc" />
 
     </LinearLayout>
 </ScrollView>
