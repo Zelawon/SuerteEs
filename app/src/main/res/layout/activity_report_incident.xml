@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:spinnerMode="dropdown"
-                android:textColor="@color/primary_text"
+                android:popupBackground="@color/card_background"
                 android:textSize="16dp"
                 android:contentDescription="@string/actual_type_desc1" />
 
