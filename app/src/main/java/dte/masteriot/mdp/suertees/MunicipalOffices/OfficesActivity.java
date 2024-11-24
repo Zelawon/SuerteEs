@@ -41,19 +41,19 @@ import dte.masteriot.mdp.suertees.MunicipalOffices.adapter.MyAdapter;
 import dte.masteriot.mdp.suertees.MunicipalOffices.model.DatasetOffices;
 import dte.masteriot.mdp.suertees.R;
 
-
 public class OfficesActivity extends AppCompatActivity implements OnDataLoadedListener {
-    public static final String LOADWEBTAG = "LOAD_WEB_TAG"; // to easily filter logs
+    public static final String LOADWEBTAG = "LOAD_WEB_TAG";
     private static final String URL_OFFICES = "https://datos.madrid.es/egob/catalogo/200149-0-oficinas-linea-madrid.json";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final String PREFS_NAME = "OfficesPrefs";
     private static final String PREFS_KEY_DATA = "WebContentData";
     private static final String TOPIC = "incidents";
-    MyAdapter recyclerViewAdapter;
+
+    private MyAdapter recyclerViewAdapter;
     private FusedLocationProviderClient locationProviderClient;
-    private double currentLatitude;
-    private double currentLongitude;
+    private double currentLatitude = 0;
+    private double currentLongitude = 0;
     private ExecutorService es;
     private Button btBack;
     private Button modeButton;
@@ -74,6 +74,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
             }
         }
     };
+
     private Mqtt3AsyncClient mqttClient;
     private LightSensorManager lightSensorManager;
 
@@ -98,10 +99,8 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
             // No cached data, proceed to download it
             progressBar.setVisibility(View.VISIBLE); // Show the progress bar
             es = Executors.newSingleThreadExecutor();
-            //Toast.makeText(this, "Loading Data", Toast.LENGTH_SHORT).show();
             LoadURLContents loadURLContents = new LoadURLContents(handler, CONTENT_TYPE_JSON, URL_OFFICES);
             es.execute(loadURLContents);
-
         }
 
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -110,30 +109,34 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            locationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                currentLatitude = location.getLatitude();
-                                currentLongitude = location.getLongitude();
+            fetchLocationAndSort();
+        }
 
-                                // Call sortItemsByDistance once location is available
+        createMQTTClient();
+        connectToBroker();
+    }
+
+    private void fetchLocationAndSort() {
+        locationProviderClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            currentLatitude = location.getLatitude();
+                            currentLongitude = location.getLongitude();
+
+                            if (dataset != null) {
                                 sortItemsByDistance();
                             }
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(OfficesActivity.this, "Failed to get location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
-        // Create and connect the MQTT client
-        createMQTTClient();
-        connectToBroker();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(OfficesActivity.this, "Failed to get location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -142,6 +145,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
         lightSensorManager.startListening();
+        fetchLocationAndSort();
     }
 
     @Override
@@ -197,11 +201,16 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         // Proceed with initializing dataset and RecyclerView
         dataset = new DatasetOffices(this, data);
 
+        if (currentLatitude != 0 && currentLongitude != 0) {
+            dataset.sortItemsByDistance(currentLatitude, currentLongitude);
+        }
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerViewAdapter = new MyAdapter(dataset.getListOfItems());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void createMQTTClient() {
@@ -257,11 +266,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
                 .whenComplete((subAck, throwable) -> {
                     if (throwable != null) {
                         Toast.makeText(OfficesActivity.this, "Failed to subscribe to topic", Toast.LENGTH_SHORT).show();
-                    } else {
-
                     }
                 });
     }
-
-
 }
