@@ -145,6 +145,7 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
         lightSensorManager.startListening();
+        fetchLocationAndSort();
     }
 
     @Override
