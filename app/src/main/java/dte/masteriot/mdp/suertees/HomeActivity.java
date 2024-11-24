@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -125,12 +125,12 @@ public class HomeActivity extends AppCompatActivity {
                             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), incidentMessage, Snackbar.LENGTH_LONG);
                             View snackbarView = snackbar.getView();
                             // Change background color
-//                            snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.snackbarBackground));
+                            snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.card_background));
                             // Adjust the text size and padding
                             TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             textView.setTextSize(18); // Set larger text size
                             textView.setPadding(32, 32, 32, 32); // Increase padding
-                            textView.setTextColor(Color.WHITE); // Set text color
+//                            textView.setTextColor(Color.WHITE); // Set text color
 
                             snackbar.show();
                         }
@@ -152,6 +152,14 @@ public class HomeActivity extends AppCompatActivity {
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
         lightSensorManager.startListening();
+
+        // Reconnect and resubscribe to the MQTT broker and topic
+        if (mqttClient == null || !mqttClient.getState().isConnected()) {
+            createMQTTClient();
+            connectToBroker();
+        } else {
+            subscribeToTopic(); // Resubscribe if already connected
+        }
     }
 
     @Override

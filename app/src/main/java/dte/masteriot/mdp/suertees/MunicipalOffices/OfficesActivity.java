@@ -12,12 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +28,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.hivemq.client.mqtt.MqttClient;
+import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,26 +46,20 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
     public static final String LOADWEBTAG = "LOAD_WEB_TAG"; // to easily filter logs
     private static final String URL_OFFICES = "https://datos.madrid.es/egob/catalogo/200149-0-oficinas-linea-madrid.json";
     private static final String CONTENT_TYPE_JSON = "application/json";
-
-    private FusedLocationProviderClient locationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final String PREFS_NAME = "OfficesPrefs";
+    private static final String PREFS_KEY_DATA = "WebContentData";
+    private static final String TOPIC = "incidents";
+    MyAdapter recyclerViewAdapter;
+    private FusedLocationProviderClient locationProviderClient;
     private double currentLatitude;
     private double currentLongitude;
-
     private ExecutorService es;
     private Button btBack;
     private Button modeButton;
     private ProgressBar progressBar;
-
     private DatasetOffices dataset;
     private RecyclerView recyclerView;
-    MyAdapter recyclerViewAdapter;
-    private LightSensorManager lightSensorManager;
-
-
-    private static final String PREFS_NAME = "OfficesPrefs";
-    private static final String PREFS_KEY_DATA = "WebContentData";
-
     // Define the handler that will receive the messages from the background thread:
     Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -74,6 +74,8 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
             }
         }
     };
+    private Mqtt3AsyncClient mqttClient;
+    private LightSensorManager lightSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,10 +130,14 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
                         }
                     });
         }
+
+        // Create and connect the MQTT client
+        createMQTTClient();
+        connectToBroker();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
@@ -196,6 +202,65 @@ public class OfficesActivity extends AppCompatActivity implements OnDataLoadedLi
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void createMQTTClient() {
+        mqttClient = MqttClient.builder()
+                .useMqttVersion3()
+                .identifier("home-activity-subscriber")
+                .serverHost("192.168.56.1")  // MQTT Broker IP address
+                .serverPort(1883)  // MQTT Broker port
+                .buildAsync();
+    }
+
+    private void connectToBroker() {
+        mqttClient.connectWith()
+                .send()
+                .whenComplete((connAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(OfficesActivity.this, "Failed to connect to broker", Toast.LENGTH_SHORT).show();
+                    } else {
+                        subscribeToTopic();
+                    }
+                });
+    }
+
+    private void subscribeToTopic() {
+        mqttClient.subscribeWith()
+                .topicFilter(TOPIC)  // The topic to subscribe to
+                .callback(publish -> {
+                    String message = new String(publish.getPayloadAsBytes());
+                    runOnUiThread(() -> {
+                        int startIndex = message.indexOf("ID:") + 3;  // Start after "ID:"
+                        int endIndex = message.indexOf("Incident:");  // End before "Incident:"
+                        String id = message.substring(startIndex, endIndex).trim();
+                        int startIndex2 = message.indexOf("Incident:");
+                        String incidentMessage = message.substring(startIndex2).trim();
+                        // Check if the authenticated user ID matches the ID in the message
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if (currentUserId.equals(id)) {
+                            // Show the received message as a Toast if the IDs match
+                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), incidentMessage, Snackbar.LENGTH_LONG);
+                            View snackbarView = snackbar.getView();
+                            // Change background color
+                            snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.card_background));
+                            // Adjust the text size and padding
+                            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            textView.setTextSize(18); // Set larger text size
+                            textView.setPadding(32, 32, 32, 32); // Increase padding
+//                            textView.setTextColor(ContextCompat.getColor(this, R.color.card_text)); // Set text color
+                            snackbar.show();
+                        }
+                    });
+                })
+                .send()
+                .whenComplete((subAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(OfficesActivity.this, "Failed to subscribe to topic", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    }
+                });
     }
 
 

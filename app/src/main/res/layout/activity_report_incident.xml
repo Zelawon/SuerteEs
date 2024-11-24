@@ -260,7 +260,8 @@
             android:contentDescription="@string/cancel_button_desc"
             android:onClick="cancel"
             android:text="CANCEL"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textColor="@color/button_text"/>
 
         <Button
             android:id="@+id/buttonSubmit"

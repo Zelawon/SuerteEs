@@ -32,8 +32,11 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hivemq.client.mqtt.MqttClient;
+import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 import java.util.Date;
 import java.util.Locale;
@@ -43,13 +46,13 @@ import dte.masteriot.mdp.suertees.Objects.Incident;
 public class ReportIncidentActivity extends AppCompatActivity {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final String TOPIC = "incidents";
     // Views
     TextView date_view, location_view;
     EditText title_view, desc_view;
     Button bt_cancel, bt_submit;
     Spinner type_view;
     Button modeButton;
-
     // Data variables
     String title, desc, type, date;
     Location location;
@@ -61,6 +64,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private FusedLocationProviderClient locationProviderClient;
     private LightSensorManager lightSensorManager;
+    private Mqtt3AsyncClient mqttClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +113,10 @@ public class ReportIncidentActivity extends AppCompatActivity {
                 finish();  // Close the activity
             }
         });
+
+        // Create and connect the MQTT client
+        createMQTTClient();
+        connectToBroker();
     }
 
     @Override
@@ -122,7 +130,7 @@ public class ReportIncidentActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Initialize the light sensor manager
         lightSensorManager = LightSensorManager.getInstance(this);
@@ -162,10 +170,11 @@ public class ReportIncidentActivity extends AppCompatActivity {
                         if (location != null) {
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
-                            String location_text = "Lat: " + String.format("%.4f",latitude) + "\nLon: " + String.format("%.4f",longitude) ;
+                            String location_text = "Lat: " + String.format("%.4f", latitude) + "\nLon: " + String.format("%.4f", longitude);
                             location_view.setText(location_text);
                         } else {
                             Toast.makeText(ReportIncidentActivity.this, "Location not available", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                 })
@@ -266,5 +275,64 @@ public class ReportIncidentActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void createMQTTClient() {
+        mqttClient = MqttClient.builder()
+                .useMqttVersion3()
+                .identifier("home-activity-subscriber")
+                .serverHost("192.168.56.1")  // MQTT Broker IP address
+                .serverPort(1883)  // MQTT Broker port
+                .buildAsync();
+    }
+
+    private void connectToBroker() {
+        mqttClient.connectWith()
+                .send()
+                .whenComplete((connAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(ReportIncidentActivity.this, "Failed to connect to broker", Toast.LENGTH_SHORT).show();
+                    } else {
+                        subscribeToTopic();
+                    }
+                });
+    }
+
+    private void subscribeToTopic() {
+        mqttClient.subscribeWith()
+                .topicFilter(TOPIC)  // The topic to subscribe to
+                .callback(publish -> {
+                    String message = new String(publish.getPayloadAsBytes());
+                    runOnUiThread(() -> {
+                        int startIndex = message.indexOf("ID:") + 3;  // Start after "ID:"
+                        int endIndex = message.indexOf("Incident:");  // End before "Incident:"
+                        String id = message.substring(startIndex, endIndex).trim();
+                        int startIndex2 = message.indexOf("Incident:");
+                        String incidentMessage = message.substring(startIndex2).trim();
+                        // Check if the authenticated user ID matches the ID in the message
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if (currentUserId.equals(id)) {
+                            // Show the received message as a Toast if the IDs match
+                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), incidentMessage, Snackbar.LENGTH_LONG);
+                            View snackbarView = snackbar.getView();
+                            // Change background color
+                            snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.card_background));
+                            // Adjust the text size and padding
+                            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            textView.setTextSize(18); // Set larger text size
+                            textView.setPadding(32, 32, 32, 32); // Increase padding
+//                            textView.setTextColor(ContextCompat.getColor(this, R.color.card_text)); // Set text color
+                            snackbar.show();
+                        }
+                    });
+                })
+                .send()
+                .whenComplete((subAck, throwable) -> {
+                    if (throwable != null) {
+                        Toast.makeText(ReportIncidentActivity.this, "Failed to subscribe to topic", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    }
+                });
     }
 }

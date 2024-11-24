@@ -224,7 +224,7 @@
             android:onClick="changeTheme"
             android:text="@string/buttom_mode_text"
             android:textColor="@color/button_text"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>
