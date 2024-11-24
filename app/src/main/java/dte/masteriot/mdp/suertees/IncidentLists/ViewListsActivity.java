@@ -135,7 +135,7 @@ public class ViewListsActivity extends AppCompatActivity {
                     incidentAdapter.notifyDataSetChanged(); // Notify adapter of data change
                 } else {
                     // Handle empty database
-                    Toast.makeText(ViewListsActivity.this, "No incidents reported by this user.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewListsActivity.this, "No incidents.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             });

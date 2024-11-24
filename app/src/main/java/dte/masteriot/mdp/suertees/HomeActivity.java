@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
@@ -38,12 +39,16 @@ public class HomeActivity extends AppCompatActivity {
     private LightSensorManager lightSensorManager;
     private Button modeButton;
     private Mqtt3AsyncClient mqttClient;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         modeButton = findViewById(R.id.button_mode);
+
+        // Initialize Firestore
+        firestore = FirebaseFirestore.getInstance();
 
         Button logoutButton = findViewById(R.id.log_out_button);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -230,18 +235,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void seeAll(View v) {
-        // TODO: Implement the logic if the DB is empty show empty message before Starting the Activity
-        Intent intent = new Intent(HomeActivity.this, ViewListsActivity.class);
-        intent.putExtra("type", "1111"); // Pass 1111 to say show all
-        startActivity(intent);
+        firestore.collection("incidents").document("allIncidents").collection("Incidents")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                        Intent intent = new Intent(HomeActivity.this, ViewListsActivity.class);
+                        intent.putExtra("type", "1111"); // Pass 1111 to say show all
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "No incidents available to display.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void seeMine(View v) {
-        // TODO: Implement the logic if the DB is empty show empty message before Starting the Activity
-        Intent intent = new Intent(HomeActivity.this, ViewListsActivity.class);
-        intent.putExtra("type", "4444"); // Pass 4444 to say show mine
-        startActivity(intent);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        firestore.collection("incidents").document(userId).collection("userIdIncidents")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                        Intent intent = new Intent(HomeActivity.this, ViewListsActivity.class);
+                        intent.putExtra("type", "4444"); // Pass 4444 to say show mine
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "No incidents reported by you.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
 
     public void seeOffices(View v) {
         // Creating Intent For Navigating to Second Activity (Explicit Intent)

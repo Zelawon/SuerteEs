@@ -200,7 +200,7 @@
             android:onClick="goBack"
             android:text="BACK"
             android:textColor="@color/button_text"
-            android:textSize="12dp" />
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/buffer"

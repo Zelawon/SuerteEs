@@ -69,4 +69,5 @@
     <string name="toolbar_title_desc">App name displayed in the toolbar</string>
     <string name="recycler_view_desc">List of incidents displayed in a scrollable view</string>
     <string name="empty_button_desc">Empty button with no functionality</string>
+    <string name="recycler_view_desc2">List of Offices for Citizen Services displayed in a scrollable view</string>
 </resources>

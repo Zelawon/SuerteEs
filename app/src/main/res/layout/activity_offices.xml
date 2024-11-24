@@ -67,7 +67,7 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:visibility="gone"
-        android:contentDescription="@string/recycler_view_desc" />
+        android:contentDescription="@string/recycler_view_desc2" />
 
     <!-- Custom Bottom Bar -->
     <LinearLayout
